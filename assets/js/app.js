@@ -165,7 +165,7 @@
       h.className = "site-header";
       h.innerHTML =
         '<div class="wrap nav">' +
-        '<a class="nav-logo" href="index.html" aria-label="Rakin Cars home"><img src="assets/img/logo-white.png" alt="Rakin Cars" width="96" height="40"></a>' +
+        '<a class="nav-logo" href="index.html" aria-label="Rakin Cars home"><span class="logo-shine"><img src="assets/img/logo-white.png" alt="Rakin Cars" width="96" height="40"></span></a>' +
         '<nav class="nav-links" id="nav-links">' +
         '<a href="cars.html">' + esc(t("nav_cars")) + "</a>" +
         '<a href="index.html#sell">' + esc(t("nav_sell")) + "</a>" +
@@ -400,11 +400,57 @@
   }
 
   /* ---------------- boot ---------------- */
+  /* ---------------- animations ---------------- */
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function intro() {
+    // Logo reveal, homepage only, once per visit
+    var seen = false;
+    try { seen = sessionStorage.getItem("rc_intro") === "1"; sessionStorage.setItem("rc_intro", "1"); } catch (e) {}
+    if (seen || REDUCED) { document.body.classList.add("ready"); return; }
+    var el = document.createElement("div");
+    el.id = "intro";
+    el.setAttribute("aria-hidden", "true");
+    el.innerHTML = '<div class="intro-beam"></div><div class="intro-glow"></div>' +
+      '<div class="intro-logo"><span class="logo-shine big"><img src="assets/img/logo-white.png" alt=""></span></div>' +
+      '<div class="intro-line"></div><div class="intro-tag">Mikocheni · Dar es Salaam</div>';
+    document.body.appendChild(el);
+    document.body.classList.add("intro-on");
+    var done = function () {
+      if (!el.parentNode) return;
+      el.classList.add("out");
+      document.body.classList.remove("intro-on");
+      document.body.classList.add("ready");
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 700);
+    };
+    el.addEventListener("click", done);
+    setTimeout(done, 2300);
+  }
+
+  function reveals() {
+    var els = document.querySelectorAll(".sec-head, .card, .empty-note, .why-item, .promo, .showroom-grid > *, .chip, .detail-sec, .spec");
+    if (REDUCED || !("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    els.forEach(function (e) {
+      // stagger siblings
+      var i = Array.prototype.indexOf.call(e.parentNode.children, e);
+      e.style.setProperty("--d", Math.min(i, 8) * 70 + "ms");
+      e.classList.add("rv");
+      io.observe(e);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     chrome();
+    if (document.body.getAttribute("data-page") === "home") intro(); else document.body.classList.add("ready");
     var page = document.body.getAttribute("data-page");
     if (page === "home") pageHome();
     if (page === "all") pageAll();
     if (page === "car") pageCar();
+    requestAnimationFrame(reveals);
   });
 })();
