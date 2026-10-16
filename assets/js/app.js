@@ -60,7 +60,8 @@
       msg_sell: "Hi Rakin Cars, I'd like to sell / exchange my car. Make & model: , Year: , Mileage: . I'll send photos.",
       msg_import: "Hi Rakin Cars, please help me find a car. Model: , Year: , Budget (TZS): ",
       msg_more: "Hi Rakin Cars, I'm looking for a car. Model: , Budget (TZS): ",
-      just_arrived: "Just arrived", nudge: "Ask about this car?"
+      just_arrived: "Just arrived", nudge: "Ask about this car?",
+      to_light: "Switch to light mode", to_dark: "Switch to dark mode"
     },
     sw: {
       nav_cars: "Magari yanauzwa", nav_sell: "Uza / Badilisha", nav_import: "Agiza gari",
@@ -111,7 +112,8 @@
       msg_sell: "Habari Rakin Cars, ningependa kuuza / kubadilisha gari langu. Aina: , Mwaka: , Kilomita: . Nitatuma picha.",
       msg_import: "Habari Rakin Cars, naomba mnisaidie kupata gari. Aina: , Mwaka: , Bajeti (TZS): ",
       msg_more: "Habari Rakin Cars, natafuta gari. Aina: , Bajeti (TZS): ",
-      just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?"
+      just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?",
+      to_light: "Badilisha kwenda mwanga", to_dark: "Badilisha kwenda giza"
     }
   };
   var VALUE_SW = { "Diesel": "Dizeli", "Petrol": "Petroli", "Automatic": "Automatiki", "Manual": "Manual", "Hybrid": "Haibridi" };
@@ -125,6 +127,27 @@
   function setLang(l) {
     try { localStorage.setItem("rc_lang", l); } catch (e) {}
     location.reload();
+  }
+
+  /* ---------------- theme (dark / light) ---------------- */
+  function getTheme() { return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark"; }
+  function logoFor(th) { return th === "light" ? "assets/img/logo-dark.png" : "assets/img/logo-white.png"; }
+  function applyTheme(th, animate) {
+    var root = document.documentElement;
+    if (animate) {
+      root.classList.add("theme-anim");
+      setTimeout(function () { root.classList.remove("theme-anim"); }, 600);
+    }
+    root.setAttribute("data-theme", th);
+    try { localStorage.setItem("rc_theme", th); } catch (e) {}
+    document.querySelectorAll(".nav-logo img").forEach(function (im) { im.src = logoFor(th); });
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", th === "light" ? "#f5f4f0" : "#0d0f10");
+    var b = document.getElementById("theme-btn");
+    if (b) {
+      b.setAttribute("aria-label", th === "light" ? t("to_dark") : t("to_light"));
+      b.setAttribute("title", th === "light" ? t("to_dark") : t("to_light"));
+    }
   }
 
   /* ---------------- helpers ---------------- */
@@ -175,7 +198,7 @@
       h.className = "site-header";
       h.innerHTML =
         '<div class="wrap nav">' +
-        '<a class="nav-logo" href="index.html" aria-label="Rakin Cars home"><span class="logo-shine"><img src="assets/img/logo-white.png" alt="Rakin Cars" width="96" height="40"></span></a>' +
+        '<a class="nav-logo" href="index.html" aria-label="Rakin Cars home"><span class="logo-shine"><img src="' + logoFor(getTheme()) + '" alt="Rakin Cars" width="96" height="40"></span></a>' +
         '<nav class="nav-links" id="nav-links">' +
         '<a href="cars.html">' + esc(t("nav_cars")) + "</a>" +
         '<a href="index.html#sell">' + esc(t("nav_sell")) + "</a>" +
@@ -184,9 +207,17 @@
         '<a href="index.html#visit">' + esc(t("nav_contact")) + "</a>" +
         '<button class="lang-btn" id="lang-btn" type="button">' + esc(t("lang_btn")) + "</button>" +
         "</nav>" +
+        '<div class="nav-tools">' +
+        '<button class="theme-btn" id="theme-btn" type="button">' +
+        '<svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>' +
+        '<svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"/></svg>' +
+        "</button>" +
         '<button class="menu-btn" id="menu-btn" aria-label="Menu" aria-expanded="false">' + ICON.menu + "</button>" +
+        "</div>" +
         "</div>";
       document.getElementById("lang-btn").onclick = function () { setLang(LANG === "en" ? "sw" : "en"); };
+      document.getElementById("theme-btn").onclick = function () { applyTheme(getTheme() === "light" ? "dark" : "light", true); };
+      applyTheme(getTheme(), false);
       var mb = document.getElementById("menu-btn"), nl = document.getElementById("nav-links");
       mb.onclick = function () {
         var o = nl.classList.toggle("open");
