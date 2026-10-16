@@ -31,6 +31,10 @@
       why2_t: "Clear prices", why2_p: "No surprises at the showroom. Ask and we'll give you a straight answer.",
       why3_t: "We handle the paperwork", why3_p: "Import, clearing, TRA registration and transfer done for you.",
       why4_t: "Trade in your old car", why4_p: "Exchange your current car as part payment towards your next one.",
+      why_kicker: "The Rakin promise",
+      why_lead: "Buying a luxury car should feel exciting, not stressful. Here's how we make it simple from first message to handover.",
+      why_float: "Every car inspected before sale",
+      why_cta_t: "Got questions?", why_cta_p: "Message our team on WhatsApp.",
       sell_t: "Sell or exchange your car", sell_p: "Send us the details and photos. We'll reply with an offer, usually the same day.",
       sell_btn: "Get an offer",
       imp_t: "Can't find your car?", imp_p: "Tell us the model, year and budget. We'll source and import it for you.",
@@ -78,6 +82,10 @@
       why2_t: "Bei zilizo wazi", why2_p: "Hakuna mshangao showroom. Uliza na tutakupa jibu la moja kwa moja.",
       why3_t: "Tunashughulikia makaratasi", why3_p: "Uagizaji, clearing, usajili wa TRA na uhamisho wa umiliki tunakufanyia.",
       why4_t: "Badilisha gari lako la zamani", why4_p: "Tumia gari lako la sasa kama sehemu ya malipo ya gari lako jipya.",
+      why_kicker: "Ahadi ya Rakin",
+      why_lead: "Kununua gari la kifahari kunapaswa kuwa raha, si usumbufu. Hivi ndivyo tunavyorahisisha kila hatua, kuanzia ujumbe wa kwanza hadi kukabidhiwa gari.",
+      why_float: "Kila gari limekaguliwa kabla ya kuuzwa",
+      why_cta_t: "Una maswali?", why_cta_p: "Tuandikie WhatsApp.",
       sell_t: "Uza au badilisha gari lako", sell_p: "Tutumie maelezo na picha. Tutakujibu na ofa, mara nyingi siku hiyo hiyo.",
       sell_btn: "Pata ofa",
       imp_t: "Hujapata gari unalotaka?", imp_p: "Tuambie aina, mwaka na bajeti. Tutakutafutia na kukuagizia.",
@@ -275,6 +283,7 @@
     setHref("sell-btn", wa(t("msg_sell")));
     setHref("import-btn", wa(t("msg_import")));
     setHref("visit-wa", wa(t("msg_general")));
+    setHref("why-cta", wa(t("msg_general")));
     var call = document.getElementById("visit-call");
     if (call) { call.href = tel(); call.lastChild.textContent = " " + t("call") + " " + INFO.phone; }
     var hrs = document.getElementById("hours");
@@ -474,7 +483,7 @@
   }
 
   function reveals() {
-    var els = document.querySelectorAll(".sec-head, .card, .empty-note, .why-item, .promo, .showroom-grid > *, .chip, .detail-sec, .spec");
+    var els = document.querySelectorAll(".sec-head, .card, .empty-note, .why-item, .why-intro > *, .why-cta, .promo, .showroom-grid > *, .chip, .detail-sec, .spec");
     if (REDUCED || !("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

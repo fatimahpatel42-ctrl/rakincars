@@ -568,3 +568,101 @@ body.leaving { opacity: 0; transition: opacity .25s ease; }
   .card.rv .card-img img, .sold-stamp { transform: none !important; opacity: 1 !important; }
   .sold-stamp { transform: translate(-50%, -50%) rotate(-14deg) !important; }
 }
+
+/* =========================================================
+   WHY BUY FROM RAKIN — redesigned
+   ========================================================= */
+.why { position: relative; overflow: hidden; }
+.why::before {
+  content: ""; position: absolute; width: 700px; height: 700px; right: -200px; top: -160px; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(225,37,27,.10), transparent 70%);
+}
+.why::after {
+  content: ""; position: absolute; width: 600px; height: 600px; left: -220px; bottom: -260px; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(120,205,210,.08), transparent 70%);
+}
+.why-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: center; }
+.why-intro h2 { font-size: clamp(36px, 4.6vw, 60px); margin: 12px 0 16px; }
+.why-lead { color: #c3cacd; font-size: 17px; max-width: 460px; }
+
+.why-photo {
+  position: relative; margin-top: 30px; border-radius: 20px; overflow: hidden;
+  aspect-ratio: 16 / 11; border: 1px solid var(--line);
+  box-shadow: 0 30px 70px rgba(0,0,0,.5);
+}
+.why-photo img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 1.4s cubic-bezier(.2,.8,.2,1); }
+.why-photo.in img { transform: scale(1); }
+.why-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(8,10,11,.75)); }
+.why-float {
+  position: absolute; left: 18px; bottom: 18px; z-index: 1;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(13,15,16,.78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.14); border-radius: 999px;
+  padding: 10px 16px; font-size: 14px; font-weight: 600;
+}
+.why-dot { width: 10px; height: 10px; border-radius: 50%; background: #1fa855; box-shadow: 0 0 0 0 rgba(31,168,85,.6); animation: dot 2s ease-out infinite; }
+@keyframes dot { 0% { box-shadow: 0 0 0 0 rgba(31,168,85,.6); } 80%,100% { box-shadow: 0 0 0 10px rgba(31,168,85,0); } }
+
+.why-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.why-card {
+  position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #1b1f21 0%, #141718 100%);
+  border: 1px solid var(--line); border-radius: 18px;
+  padding: 26px 24px 28px; border-top: 1px solid var(--line);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .35s ease, box-shadow .35s ease;
+}
+.why-card::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: radial-gradient(420px circle at 0% 0%, rgba(225,37,27,.16), transparent 55%);
+  transition: opacity .35s ease;
+}
+.why-card.rv.in:hover, .why-card:not(.rv):hover { transform: translateY(-6px); border-color: rgba(225,37,27,.55); box-shadow: 0 22px 50px rgba(0,0,0,.45); }
+.why-card:hover::before { opacity: 1; }
+.why-item { border-top: 0; padding-top: 26px; }
+.why-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.why-icon {
+  width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center;
+  background: rgba(225,37,27,.12); color: #ff4a3d; border: 1px solid rgba(225,37,27,.35);
+  transition: transform .45s cubic-bezier(.3,1.5,.5,1), background .3s ease, color .3s ease;
+}
+.why-icon svg { width: 26px; height: 26px; }
+.why-card:hover .why-icon { transform: rotate(-8deg) scale(1.08); background: var(--red); color: #fff; }
+.why-num {
+  font-family: var(--head); font-size: 44px; font-weight: 600; line-height: 1;
+  color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.18);
+  transition: -webkit-text-stroke-color .3s ease;
+}
+.why-card:hover .why-num { -webkit-text-stroke-color: rgba(120,205,210,.7); }
+.why-card h3 { font-family: var(--body); text-transform: none; letter-spacing: 0; font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+.why-card p { color: var(--muted); font-size: 15px; line-height: 1.55; }
+.why-bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--red), #ff7a52); transition: width .5s cubic-bezier(.2,.8,.2,1); }
+.why-card:hover .why-bar { width: 100%; }
+.why-card.rv.in .why-bar { animation: barIn 1s cubic-bezier(.2,.8,.2,1) calc(var(--d, 0ms) + 250ms) both; }
+@keyframes barIn { 0% { width: 0; } 50% { width: 38%; } 100% { width: 0; } }
+
+.why-cta {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  background: linear-gradient(100deg, #1fa855, #16824a); color: #fff;
+  border-radius: 18px; padding: 20px 24px;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.why-cta strong { display: block; font-size: 18px; }
+.why-cta span span { opacity: .9; font-size: 15px; }
+.why-cta-arrow {
+  flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(255,255,255,.18); font-size: 22px; transition: transform .3s ease, background .3s ease;
+}
+.why-cta:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(31,168,85,.35); }
+.why-cta:hover .why-cta-arrow { transform: translateX(5px); background: rgba(255,255,255,.28); }
+
+@media (max-width: 1024px) {
+  .why-layout { grid-template-columns: 1fr; gap: 36px; }
+  .why-photo { aspect-ratio: 16 / 9; max-height: 420px; }
+}
+@media (max-width: 600px) {
+  .why-cards { grid-template-columns: 1fr; }
+  .why-card { padding: 22px 20px 24px; }
+  .why-top { margin-bottom: 16px; }
+  .why-num { font-size: 38px; }
+}
