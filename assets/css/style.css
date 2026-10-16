@@ -768,3 +768,22 @@ body.leaving { opacity: 0; transition: opacity .25s ease; }
 .foot a.social[href^="tel"]:hover { background: var(--red); }
 [data-theme="light"] .foot a.social { border-color: #cfccc4; }
 @media (max-width: 520px) { .foot { flex-direction: column-reverse; align-items: flex-start; gap: 16px; } }
+
+/* Why section: compact cards on phones (icon left, text right) */
+@media (max-width: 600px) {
+  .why-intro h2 { font-size: 38px; }
+  .why-photo { aspect-ratio: 16 / 10; margin-top: 22px; }
+  .why-cards { gap: 12px; }
+  .why-card { display: grid; grid-template-columns: 48px 1fr; column-gap: 16px; align-items: start; padding: 18px 18px 20px; }
+  .why-top { display: contents; }
+  .why-icon { grid-row: 1 / span 2; width: 48px; height: 48px; border-radius: 12px; }
+  .why-icon svg { width: 23px; height: 23px; }
+  .why-num { position: absolute; top: 14px; right: 16px; font-size: 26px; }
+  .why-card h3 { font-size: 17px; margin: 2px 34px 4px 0; }
+  .why-card p { font-size: 14.5px; grid-column: 2; }
+  .why-cta { padding: 18px 20px; }
+}
+@media (max-width: 600px) {
+  .why-num { display: none; }
+  .why-card h3 { margin-right: 0; }
+}
