@@ -203,7 +203,6 @@
         '<a href="cars.html">' + esc(t("nav_cars")) + "</a>" +
         '<a href="index.html#sell">' + esc(t("nav_sell")) + "</a>" +
         '<a href="index.html#import">' + esc(t("nav_import")) + "</a>" +
-        '<a href="index.html#why">' + esc(t("nav_about")) + "</a>" +
         '<a href="index.html#visit">' + esc(t("nav_contact")) + "</a>" +
         '<button class="lang-btn" id="lang-btn" type="button">' + esc(t("lang_btn")) + "</button>" +
         "</nav>" +
