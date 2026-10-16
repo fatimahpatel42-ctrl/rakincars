@@ -55,7 +55,8 @@
       msg_trade: "Hi Rakin Cars, I'd like to trade in my car for the {car} (Ref {ref}). My car is: ",
       msg_sell: "Hi Rakin Cars, I'd like to sell / exchange my car. Make & model: , Year: , Mileage: . I'll send photos.",
       msg_import: "Hi Rakin Cars, please help me find a car. Model: , Year: , Budget (TZS): ",
-      msg_more: "Hi Rakin Cars, I'm looking for a car. Model: , Budget (TZS): "
+      msg_more: "Hi Rakin Cars, I'm looking for a car. Model: , Budget (TZS): ",
+      just_arrived: "Just arrived", nudge: "Ask about this car?"
     },
     sw: {
       nav_cars: "Magari yanauzwa", nav_sell: "Uza / Badilisha", nav_import: "Agiza gari",
@@ -101,7 +102,8 @@
       msg_trade: "Habari Rakin Cars, ningependa kubadilisha gari langu kwa {car} (Ref {ref}). Gari langu ni: ",
       msg_sell: "Habari Rakin Cars, ningependa kuuza / kubadilisha gari langu. Aina: , Mwaka: , Kilomita: . Nitatuma picha.",
       msg_import: "Habari Rakin Cars, naomba mnisaidie kupata gari. Aina: , Mwaka: , Bajeti (TZS): ",
-      msg_more: "Habari Rakin Cars, natafuta gari. Aina: , Bajeti (TZS): "
+      msg_more: "Habari Rakin Cars, natafuta gari. Aina: , Bajeti (TZS): ",
+      just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?"
     }
   };
   var VALUE_SW = { "Diesel": "Dizeli", "Petrol": "Petroli", "Automatic": "Automatiki", "Manual": "Manual", "Hybrid": "Haibridi" };
@@ -134,7 +136,7 @@
   function priceHTML(c, cls) {
     if (c.status === "sold") return '<div class="' + cls + '">' + esc(t("st_sold")) + "</div>";
     if (c.priceTZS == null) return '<div class="' + cls + ' por">' + esc(t("por")) + "</div>";
-    return '<div class="' + cls + '">TZS ' + num(c.priceTZS) + "</div>";
+    return '<div class="' + cls + '">TZS <span data-count="' + c.priceTZS + '">' + num(c.priceTZS) + "</span></div>";
   }
   function badge(c) {
     var s = c.status || "available";
@@ -207,7 +209,9 @@
   function cardHTML(c) {
     return (
       '<a class="card' + (c.status === "sold" ? " is-sold" : "") + '" href="car.html?id=' + encodeURIComponent(c.id) + '">' +
-      '<div class="card-img"><img src="' + esc(c.cardImage || (c.photos && c.photos[0] && c.photos[0].src)) + '" alt="' + esc(carName(c)) + '" loading="lazy">' + badge(c) + "</div>" +
+      '<div class="card-img"><img src="' + esc(c.cardImage || (c.photos && c.photos[0] && c.photos[0].src)) + '" alt="' + esc(carName(c)) + '" loading="lazy">' + badge(c) +
+      (c.featured && c.status === "available" ? '<span class="ribbon">' + esc(t("just_arrived")) + "</span>" : "") +
+      (c.status === "sold" ? '<span class="sold-stamp">' + esc(t("st_sold")) + "</span>" : "") + "</div>" +
       '<div class="card-body"><div class="card-title">' + esc(carName(c)) + "</div>" +
       '<div class="card-meta">' + esc(carMeta(c) || c.body || "") + "</div>" +
       priceHTML(c, "card-price") + "</div></a>"
@@ -256,7 +260,10 @@
       grid.innerHTML = html;
     }
     var chips = document.getElementById("chips");
-    if (chips) chips.innerHTML = chipsHTML();
+    if (chips) {
+      if (REDUCED) chips.innerHTML = chipsHTML();
+      else { chips.classList.add("ticker"); chips.innerHTML = '<div class="ticker-track">' + chipsHTML() + chipsHTML() + chipsHTML() + chipsHTML() + "</div>"; }
+    }
     // hero tag
     var f = sortCars(CARS)[0], tag = document.getElementById("hero-tag");
     if (f && tag) {
@@ -363,7 +370,12 @@
       '<div class="wa-preview">' + esc(t("wa_ready")) + "<em>“" + esc(msg) + "”</em></div>" +
       "</aside></div>" +
       (specs.length ? '<div class="detail-sec"><h2>' + esc(t("key_specs")) + '</h2><div class="specs">' +
-        specs.map(function (s) { return '<div class="spec"><span>' + esc(t(s[0])) + "</span><strong>" + esc(s[1]) + "</strong></div>"; }).join("") + "</div></div>" : "") +
+        specs.map(function (s) {
+          var val = esc(s[1]);
+          if (s[0] === "sp_year" && c.year) val = '<span data-count="' + c.year + '" data-from="' + (c.year - 12) + '" data-plain="1">' + c.year + "</span>";
+          if (s[0] === "sp_mileage" && c.mileage != null) val = '<span data-count="' + c.mileage + '">' + num(c.mileage) + "</span> km";
+          return '<div class="spec"><span>' + esc(t(s[0])) + "</span><strong>" + val + "</strong></div>";
+        }).join("") + "</div></div>" : "") +
       (about ? '<div class="detail-sec"><h2>' + esc(t("about_car")) + '</h2><p class="about-text">' + esc(about) + "</p></div>" : "") +
       (c.condition && c.condition.length ? '<div class="detail-sec"><h2>' + esc(t("condition")) + '</h2><ul class="checks">' +
         c.condition.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" : "") +
@@ -371,32 +383,66 @@
       (similar.length ? '<div class="detail-sec"><h2>' + esc(t("similar")) + '</h2><div class="cards">' + similar.map(cardHTML).join("") + "</div></div>" : "") +
       '<a class="back-link" href="cars.html">' + esc(t("back")) + "</a>";
 
-    // gallery behaviour
+    // gallery behaviour: slide + crossfade, drag to swipe
+    window.__carMsg = msg;
     var i = 0, img = document.getElementById("gimg"), cnt = document.getElementById("gcount"), th = document.querySelectorAll(".thumb");
-    function show(n) {
-      i = (n + photos.length) % photos.length;
-      img.src = photos[i].src;
+    var gm = document.getElementById("gmain"), busy = false;
+    photos.forEach(function (ph) { var pre = new Image(); pre.src = ph.src; }); // preload for smooth swaps
+    function label() {
       cnt.textContent = t("photo") + " " + (i + 1) + " " + t("of") + " " + photos.length;
       th.forEach(function (b, k) { b.classList.toggle("on", k === i); });
+      var on = th[i]; if (on && on.scrollIntoView && window.innerWidth < 860) {}
     }
-    th.forEach(function (b) { b.onclick = function () { show(+b.getAttribute("data-i")); }; });
+    function show(n, dir) {
+      var next = (n + photos.length) % photos.length;
+      if (next === i && img.getAttribute("src") === photos[next].src) { label(); return; }
+      if (REDUCED || busy) { i = next; img.src = photos[i].src; label(); return; }
+      dir = dir || (next > i ? 1 : -1);
+      busy = true;
+      var incoming = img.cloneNode();
+      incoming.removeAttribute("id");
+      incoming.src = photos[next].src;
+      incoming.className = "g-incoming";
+      incoming.style.transform = "translateX(" + (dir * 18) + "%) scale(1.04)";
+      incoming.style.opacity = "0";
+      gm.insertBefore(incoming, img.nextSibling);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          incoming.style.transform = "none"; incoming.style.opacity = "1";
+          img.style.transition = "transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s ease";
+          img.style.transform = "translateX(" + (-dir * 12) + "%) scale(.98)"; img.style.opacity = "0";
+        });
+      });
+      setTimeout(function () {
+        img.src = photos[next].src; img.style.transition = "none"; img.style.transform = ""; img.style.opacity = "";
+        if (incoming.parentNode) incoming.parentNode.removeChild(incoming);
+        busy = false;
+      }, 520);
+      i = next; label();
+    }
+    th.forEach(function (b) { b.onclick = function () { var k = +b.getAttribute("data-i"); show(k, k > i ? 1 : -1); }; });
     var p = document.getElementById("gprev"), nx = document.getElementById("gnext");
-    if (p) p.onclick = function () { show(i - 1); };
-    if (nx) nx.onclick = function () { show(i + 1); };
+    if (p) p.onclick = function () { show(i - 1, -1); };
+    if (nx) nx.onclick = function () { show(i + 1, 1); };
     document.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowLeft") show(i - 1);
-      if (e.key === "ArrowRight") show(i + 1);
+      if (e.key === "ArrowLeft") show(i - 1, -1);
+      if (e.key === "ArrowRight") show(i + 1, 1);
     });
-    // swipe on phones
-    var sx = null, gm = document.getElementById("gmain");
-    gm.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
-    gm.addEventListener("touchend", function (e) {
+    // drag with the finger, spring back if not far enough
+    var sx = null, dx = 0;
+    gm.addEventListener("touchstart", function (e) { if (busy) return; sx = e.touches[0].clientX; dx = 0; img.style.transition = "none"; }, { passive: true });
+    gm.addEventListener("touchmove", function (e) {
       if (sx == null) return;
-      var dx = e.changedTouches[0].clientX - sx;
-      if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1);
+      dx = e.touches[0].clientX - sx;
+      img.style.transform = "translateX(" + dx * 0.6 + "px)";
+    }, { passive: true });
+    gm.addEventListener("touchend", function () {
+      if (sx == null) return;
       sx = null;
+      if (Math.abs(dx) > 50) { img.style.transform = ""; show(dx < 0 ? i + 1 : i - 1, dx < 0 ? 1 : -1); }
+      else { img.style.transition = "transform .45s cubic-bezier(.3,1.6,.5,1)"; img.style.transform = ""; }
     });
-    show(0);
+    i = 0; img.src = photos[0].src; label();
   }
 
   /* ---------------- boot ---------------- */
@@ -444,6 +490,110 @@
     });
   }
 
+  /* ---------- extra effects ---------- */
+  var FINE = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  function countUps() {
+    var els = document.querySelectorAll("[data-count]");
+    if (!els.length) return;
+    function run(el) {
+      var to = +el.getAttribute("data-count"), from = +(el.getAttribute("data-from") || 0), plain = el.hasAttribute("data-plain");
+      var t0 = null, dur = 1400;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var k = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - k, 3), v = Math.round(from + (to - from) * e);
+        el.textContent = plain ? String(v) : num(v);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    if (REDUCED || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (en) {
+      en.forEach(function (x) { if (x.isIntersecting) { run(x.target); io.unobserve(x.target); } });
+    }, { threshold: 0.6 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  function heroFx() {
+    var hero = document.querySelector(".hero"), media = document.querySelector(".hero-media");
+    if (!hero || !media || REDUCED) return;
+    // headlight flash, synced to the end of the video loop
+    var flash = document.createElement("div"); flash.className = "hero-flash"; media.appendChild(flash);
+    var vid = media.querySelector("video"), last = 0;
+    function fire() { flash.classList.remove("go"); void flash.offsetWidth; flash.classList.add("go"); media.classList.remove("pulse"); void media.offsetWidth; media.classList.add("pulse"); }
+    if (vid) vid.addEventListener("timeupdate", function () {
+      var tt = vid.currentTime;
+      if (last < 5.85 && tt >= 5.85) fire();
+      last = tt;
+    });
+    // spotlight that follows the mouse
+    if (FINE) {
+      hero.classList.add("spot");
+      hero.addEventListener("mousemove", function (e) {
+        var r = hero.getBoundingClientRect();
+        hero.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        hero.style.setProperty("--my", (e.clientY - r.top) + "px");
+      });
+    }
+    // parallax on scroll
+    var col = document.querySelector(".hero-grid > div:first-child"), ticking = false;
+    window.addEventListener("scroll", function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () {
+        var y = Math.min(window.scrollY, 900);
+        if (vid) vid.style.transform = "translateY(" + y * 0.08 + "px) scale(1.12)";
+        if (col) col.style.transform = "translateY(" + y * 0.12 + "px)";
+        ticking = false;
+      });
+    }, { passive: true });
+    if (vid) vid.style.transform = "scale(1.12)";
+  }
+
+  function tilt() {
+    if (!FINE || REDUCED) return;
+    document.addEventListener("mousemove", function (e) {
+      var card = e.target.closest && e.target.closest(".card[href]");
+      document.querySelectorAll(".card.tilting").forEach(function (c) { if (c !== card) { c.classList.remove("tilting"); c.style.removeProperty("--rx"); c.style.removeProperty("--ry"); } });
+      if (!card) return;
+      var r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      card.classList.add("tilting");
+      card.style.setProperty("--ry", ((px - .5) * 10).toFixed(2) + "deg");
+      card.style.setProperty("--rx", ((.5 - py) * 8).toFixed(2) + "deg");
+      card.style.setProperty("--gx", (px * 100).toFixed(1) + "%");
+      card.style.setProperty("--gy", (py * 100).toFixed(1) + "%");
+    });
+  }
+
+  function nudge() {
+    if (document.body.getAttribute("data-page") !== "car" || REDUCED) return;
+    setTimeout(function () {
+      var w = document.querySelector(".wa-float");
+      if (!w) return;
+      if (window.__carMsg) w.href = wa(window.__carMsg);
+      var tip = document.createElement("span"); tip.className = "wa-tip"; tip.textContent = t("nudge");
+      w.appendChild(tip);
+      w.classList.add("nudge");
+      setTimeout(function () { w.classList.remove("nudge"); }, 1200);
+      setTimeout(function () { tip.classList.add("hide"); }, 7000);
+    }, 20000);
+  }
+
+  function pageTransitions() {
+    if (REDUCED) return;
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a || a.target || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      var href = a.getAttribute("href");
+      if (!href || href.charAt(0) === "#" || /^(https?:|tel:|mailto:)/.test(href)) return;
+      var url = new URL(href, location.href);
+      if (url.pathname === location.pathname && url.search === location.search && url.hash) return; // same-page anchor
+      e.preventDefault();
+      document.body.classList.add("leaving");
+      setTimeout(function () { location.href = url.href; }, 260);
+    });
+    window.addEventListener("pageshow", function () { document.body.classList.remove("leaving"); });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     chrome();
     if (document.body.getAttribute("data-page") === "home") intro(); else document.body.classList.add("ready");
@@ -452,5 +602,11 @@
     if (page === "all") pageAll();
     if (page === "car") pageCar();
     requestAnimationFrame(reveals);
+    countUps(); heroFx(); tilt(); nudge(); pageTransitions();
+    document.querySelectorAll(".hero-in").forEach(function (el) {
+      el.addEventListener("animationend", function (e) {
+        if (e.animationName === "heroIn") { el.classList.remove("hero-in"); el.style.animation = "none"; requestAnimationFrame(function () { el.style.animation = ""; }); }
+      });
+    });
   });
 })();
