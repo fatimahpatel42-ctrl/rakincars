@@ -752,3 +752,19 @@ body.leaving { opacity: 0; transition: opacity .25s ease; }
 /* text on dark glass/photo overlays stays white in both themes */
 .hero-media .tag, .hero-media .tag strong, .why-float, .gallery-main .counter, .thumb span, .g-nav { color: #fff; }
 .hero-media .tag span { color: rgba(255,255,255,.7); }
+
+/* footer social icons */
+.foot { align-items: center; }
+.socials { display: flex; gap: 10px; }
+.foot a.social {
+  width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid #3a4044; color: var(--text);
+  transition: transform .25s ease, background .25s ease, border-color .25s ease, color .25s ease;
+}
+.foot a.social svg { width: 19px; height: 19px; }
+.foot a.social:hover { transform: translateY(-3px); color: #fff; border-color: transparent; }
+.foot a.social[href*="instagram"]:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+.foot a.social[href*="wa.me"]:hover { background: #1fa855; }
+.foot a.social[href^="tel"]:hover { background: var(--red); }
+[data-theme="light"] .foot a.social { border-color: #cfccc4; }
+@media (max-width: 520px) { .foot { flex-direction: column-reverse; align-items: flex-start; gap: 16px; } }

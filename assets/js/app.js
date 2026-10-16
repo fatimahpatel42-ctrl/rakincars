@@ -229,7 +229,12 @@
       f.className = "site-footer";
       f.innerHTML =
         '<div class="wrap foot"><span>© ' + new Date().getFullYear() + " Rakin Cars · " + esc(t("foot_tag")) + "</span>" +
-        '<a href="https://instagram.com/' + esc(INFO.instagram) + '" target="_blank" rel="noopener">Instagram @' + esc(INFO.instagram) + "</a></div>";
+        '<div class="socials">' +
+        '<a class="social" href="https://instagram.com/' + esc(INFO.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram @' + esc(INFO.instagram) + '" title="Instagram @' + esc(INFO.instagram) + '">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>' +
+        '<a class="social" href="' + wa(t("msg_general")) + '" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">' + ICON.wa.replace('class="ico"', "") + "</a>" +
+        '<a class="social" href="' + tel() + '" aria-label="' + esc(t("call")) + " " + esc(INFO.phone) + '" title="' + esc(INFO.phone) + '">' + ICON.phone.replace('class="ico"', "") + "</a>" +
+        "</div></div>";
     }
     var w = document.createElement("a");
     w.className = "wa-float";
