@@ -326,7 +326,7 @@
   function cardHTML(c) {
     return (
       '<a class="card' + (c.status === "sold" ? " is-sold" : "") + '" href="car.html?id=' + encodeURIComponent(c.id) + '">' +
-      '<div class="card-img">' + ((c.cardImage || (c.photos && c.photos[0] && c.photos[0].src)) ? '<img src="' + esc(c.cardImage || c.photos[0].src) + '" alt="' + esc(carName(c)) + '" loading="lazy">' : noPhoto()) + badge(c) +
+      '<div class="card-img">' + ((c.cardImage || (c.photos && c.photos[0] && c.photos[0].src)) ? '<img src="' + esc(c.cardImage || c.photos[0].src) + '" alt="' + esc(carName(c)) + '" loading="lazy" onerror="this.onerror=null;this.outerHTML=window.__noPhoto">' : noPhoto()) + badge(c) +
       (c.featured && c.status === "available" ? '<span class="ribbon">' + esc(t("just_arrived")) + "</span>" : "") +
       (c.status === "sold" ? '<span class="sold-stamp">' + esc(t("st_sold")) + "</span>" : "") + "</div>" +
       '<div class="card-body"><div class="card-title">' + esc(carName(c)) + "</div>" +
@@ -334,9 +334,11 @@
       priceHTML(c, "card-price") + "</div></a>"
     );
   }
+  window.__noPhoto = "";
   function noPhoto() {
     return '<div class="no-photo"><img src="assets/img/logo-car.png" alt=""><span>' + esc(t("photos_soon")) + "</span></div>";
   }
+  setTimeout(function () { window.__noPhoto = noPhoto(); }, 0);
   function moreCardHTML() {
     return (
       '<div class="empty-note"><strong>' + esc(t("more_title")) + "</strong><span>" + esc(t("more_text")) + "</span>" +

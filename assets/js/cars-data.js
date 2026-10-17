@@ -101,8 +101,7 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/lc300-champagne/front.jpg", label: "Front 3/4" },
       { src: "assets/img/cars/lc300-champagne/rear-side.jpg", label: "Rear 3/4" },
       { src: "assets/img/cars/lc300-champagne/front-side.jpg", label: "Front" },
-      { src: "assets/img/cars/lc300-champagne/dash.jpg", label: "Dashboard" },
-      { src: "assets/img/cars/lc300-champagne/rear.jpg", label: "Rear" }
+      { src: "assets/img/cars/lc300-champagne/dash.jpg", label: "Dashboard" }
     ],
     video: null,
     about: "The latest-generation Land Cruiser 300 in an elegant champagne finish. Chrome grille, LED lighting and the full-width infotainment screen, with the legendary Land Cruiser toughness underneath. Ask us for the full specification.",
@@ -131,7 +130,6 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/lc300-white/front-side.jpg", label: "Front" },
       { src: "assets/img/cars/lc300-white/front-seats.jpg", label: "Front seats" },
       { src: "assets/img/cars/lc300-white/rear-seats.jpg", label: "Rear seats" },
-      { src: "assets/img/cars/lc300-white/rear-side.jpg", label: "Rear" },
       { src: "assets/img/cars/lc300-white/engine.jpg", label: "Engine" }
     ],
     video: null,
@@ -160,8 +158,7 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/lc300-gr-sport/rear-side.jpg", label: "Rear 3/4" },
       { src: "assets/img/cars/lc300-gr-sport/front-side.jpg", label: "Front" },
       { src: "assets/img/cars/lc300-gr-sport/seats.jpg", label: "Seats" },
-      { src: "assets/img/cars/lc300-gr-sport/cockpit.jpg", label: "Cockpit" },
-      { src: "assets/img/cars/lc300-gr-sport/rear.jpg", label: "Rear" }
+      { src: "assets/img/cars/lc300-gr-sport/cockpit.jpg", label: "Cockpit" }
     ],
     video: null,
     about: "The sporty Land Cruiser 300 GR Sport in black: the bold TOYOTA-lettered grille, black alloys, GR badging and a dark leather interior. A head-turner that's still a true Land Cruiser off the road. Ask us for the full specification.",
