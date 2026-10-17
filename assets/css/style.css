@@ -1064,3 +1064,71 @@ body.leaving { opacity: 0; transition: opacity .25s ease; }
   .foot-word span { font-size: 15vw; }
   .foot-road { margin-top: 0; }
 }
+
+/* =========================================================
+   CAR GALLERY: autoplay + zoom
+   ========================================================= */
+.g-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.12); z-index: 2; }
+.g-progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--red), #ff7a52); }
+.gallery-main.single .g-progress, .gallery-main.single .g-play { display: none; }
+.g-zoom, .g-play {
+  position: absolute; z-index: 2; top: 14px; color: #fff; border: 0;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: inline-flex; align-items: center; gap: 7px; border-radius: 999px;
+  transition: background .2s ease, transform .2s ease;
+}
+.g-zoom { right: 14px; padding: 8px 14px 8px 11px; font-size: 13px; font-weight: 700; }
+.g-play { right: 14px; top: auto; bottom: 16px; width: 36px; height: 36px; justify-content: center; }
+.g-zoom:hover, .g-play:hover { background: rgba(0,0,0,.8); transform: scale(1.05); }
+.g-zoom svg { width: 17px; height: 17px; }
+.g-play svg { width: 15px; height: 15px; }
+.g-play .i-play { display: none; }
+.gallery-main.is-paused .g-play .i-play { display: block; }
+.gallery-main.is-paused .g-play .i-pause { display: none; }
+.gallery-main .counter { bottom: 16px; }
+
+/* full-screen zoom viewer */
+.zoomer {
+  position: fixed; inset: 0; z-index: 300; background: rgba(5,6,7,.96);
+  display: grid; grid-template-rows: auto 1fr auto; opacity: 0; transition: opacity .25s ease;
+  color: #fff; touch-action: none;
+}
+.zoomer.open { opacity: 1; }
+.z-top { display: flex; align-items: center; gap: 14px; padding: 14px 18px; font-size: 14px; }
+.z-count { font-weight: 700; }
+.z-label { color: rgba(255,255,255,.65); flex: 1; }
+.z-close { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: #fff; font-size: 18px; }
+.z-close:hover { background: rgba(255,255,255,.12); }
+.z-stage { position: relative; overflow: hidden; display: grid; place-items: center; cursor: zoom-in; }
+.zoomer.zoomed .z-stage { cursor: grab; }
+.zoomer.zoomed .z-stage:active { cursor: grabbing; }
+.z-img { max-width: 100%; max-height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; transform-origin: center center; transition: opacity .14s ease; will-change: transform; }
+.z-img.swap { opacity: 0; }
+.z-nav {
+  position: fixed; top: 50%; transform: translateY(-50%); z-index: 2;
+  width: 52px; height: 52px; border-radius: 50%; border: 0; display: grid; place-items: center;
+  background: rgba(255,255,255,.1); color: #fff; transition: background .2s ease, opacity .2s ease;
+}
+.z-nav:hover { background: rgba(255,255,255,.22); }
+.z-nav svg { width: 24px; height: 24px; }
+.z-prev { left: 18px; } .z-next { right: 18px; }
+.zoomer.zoomed .z-nav, .zoomer.zoomed .z-hint { opacity: 0; pointer-events: none; }
+.z-hint { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); font-size: 13px; color: rgba(255,255,255,.7); background: rgba(0,0,0,.5); padding: 7px 14px; border-radius: 999px; white-space: nowrap; transition: opacity .3s ease; animation: hintOut .5s ease 3s forwards; }
+@keyframes hintOut { to { opacity: 0; } }
+.z-thumbs { display: flex; gap: 8px; padding: 12px 18px 18px; overflow-x: auto; justify-content: safe center; scrollbar-width: none; }
+.z-thumbs::-webkit-scrollbar { display: none; }
+.z-thumbs button { flex: none; width: 64px; height: 64px; padding: 0; border-radius: 10px; overflow: hidden; border: 2px solid transparent; background: #111; opacity: .55; transition: opacity .2s ease, border-color .2s ease; }
+.z-thumbs button.on { border-color: var(--red); opacity: 1; }
+.z-thumbs img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 600px) {
+  .z-nav { display: none; }
+  .z-thumbs button { width: 52px; height: 52px; }
+  .z-hint { bottom: 84px; font-size: 12px; }
+  .g-zoom span { display: none; }
+  .g-zoom { padding: 9px; }
+}
+/* keep the photo fully inside the viewer */
+.zoomer { grid-template-rows: auto minmax(0, 1fr) auto; height: 100vh; height: 100dvh; }
+.z-stage { min-height: 0; }
+.z-img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: contain; }
+.zoomer { background: #050607; }

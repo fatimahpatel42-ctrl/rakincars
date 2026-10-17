@@ -63,6 +63,7 @@
       just_arrived: "Just arrived", nudge: "Ask about this car?",
       to_light: "Switch to light mode", to_dark: "Switch to dark mode",
       watch_ig: "Watch the video on Instagram",
+      zoom: "Zoom", zoom_hint: "Pinch or double-tap to zoom · swipe for next", close: "Close",
       brands_label: "Brands we sell & source",
       latest_kicker: "In stock now", latest_sub: "Hand-picked, inspected and ready to view at our Mikocheni showroom.",
       svc_kicker: "More than sales", svc_title: "Sell, trade or import", svc_sub: "Selling your car, trading up, or after something we don't have yet? We handle it.",
@@ -123,6 +124,7 @@
       just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?",
       to_light: "Badilisha kwenda mwanga", to_dark: "Badilisha kwenda giza",
       watch_ig: "Tazama video Instagram",
+      zoom: "Kuza", zoom_hint: "Bana au gusa mara mbili kukuza · telezesha kwa inayofuata", close: "Funga",
       brands_label: "Aina tunazouza na kuagiza",
       latest_kicker: "Yaliyopo sasa", latest_sub: "Yamechaguliwa, yamekaguliwa na tayari kuonwa showroom yetu Mikocheni.",
       svc_kicker: "Zaidi ya mauzo", svc_title: "Uza, badilisha au agiza", svc_sub: "Unauza gari lako, unataka kubadilisha, au unatafuta gari ambalo hatuna bado? Tunakushughulikia.",
@@ -470,6 +472,9 @@
       '<div class="gallery-main" id="gmain"><img id="gimg" src="' + esc(photos[0].src) + '" alt="' + esc(name) + '">' +
       '<span class="status-pill">' + badge(c) + "</span>" +
       '<span class="counter" id="gcount"></span>' +
+      '<button class="g-zoom" id="gzoom" type="button" aria-label="' + esc(t("zoom")) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6"/></svg><span>' + esc(t("zoom")) + "</span></button>" +
+      '<button class="g-play" id="gplay" type="button" aria-label="Pause"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>' +
+      '<div class="g-progress"><i id="gbar"></i></div>' +
       (photos.length > 1 ? '<button class="g-nav g-prev" id="gprev" aria-label="Previous photo">' + ICON.left + '</button><button class="g-nav g-next" id="gnext" aria-label="Next photo">' + ICON.right + "</button>" : "") +
       "</div>" +
       '<div class="thumbs" id="thumbs">' + photos.map(function (p, i) {
@@ -563,6 +568,184 @@
       else { img.style.transition = "transform .45s cubic-bezier(.3,1.6,.5,1)"; img.style.transform = ""; }
     });
     i = 0; img.src = photos[0].src; label();
+
+    /* ---- autoplay: next photo every 4s, pauses on hover / touch / zoom ---- */
+    var DELAY = 4000, timer = null, paused = false, hoverPause = false, bar = document.getElementById("gbar");
+    var playBtn = document.getElementById("gplay");
+    function startBar() {
+      if (!bar) return;
+      bar.style.transition = "none"; bar.style.width = "0";
+      void bar.offsetWidth;
+      bar.style.transition = "width " + DELAY + "ms linear"; bar.style.width = "100%";
+    }
+    function stopBar() { if (bar) { var w = getComputedStyle(bar).width; bar.style.transition = "none"; bar.style.width = w; } }
+    function schedule() {
+      clearTimeout(timer);
+      if (paused || hoverPause || photos.length < 2 || REDUCED || document.hidden) { stopBar(); return; }
+      startBar();
+      timer = setTimeout(function () { show(i + 1, 1); schedule(); }, DELAY);
+    }
+    function setPaused(v) { paused = v; gm.classList.toggle("is-paused", v); schedule(); }
+    if (playBtn) playBtn.onclick = function (e) { e.stopPropagation(); setPaused(!paused); };
+    gm.addEventListener("mouseenter", function () { hoverPause = true; schedule(); });
+    gm.addEventListener("mouseleave", function () { hoverPause = false; schedule(); });
+    // any manual navigation restarts the countdown
+    [p, nx].forEach(function (b) { if (b) b.addEventListener("click", schedule); });
+    th.forEach(function (b) { b.addEventListener("click", schedule); });
+    gm.addEventListener("touchend", function () { setTimeout(schedule, 0); });
+    document.addEventListener("keydown", function (e) { if (e.key === "ArrowLeft" || e.key === "ArrowRight") schedule(); });
+    document.addEventListener("visibilitychange", schedule);
+    // only run while the gallery is on screen
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) { hoverPause = !en[0].isIntersecting ? true : (gm.matches(":hover")); schedule(); }, { threshold: 0.4 }).observe(gm);
+    } else schedule();
+    if (photos.length < 2) gm.classList.add("single");
+
+    /* ---- zoom: full-screen viewer with pinch, double-tap, wheel and drag ---- */
+    function openViewer(start) {
+      setPaused(true);
+      var k = start, scale = 1, tx = 0, ty = 0;
+      var v = document.createElement("div");
+      v.className = "zoomer";
+      v.setAttribute("role", "dialog");
+      v.innerHTML =
+        '<div class="z-top"><span class="z-count"></span><span class="z-label"></span><button class="z-close" aria-label="' + esc(t("close")) + '">✕</button></div>' +
+        '<div class="z-stage"><img class="z-img" alt="' + esc(name) + '" draggable="false"></div>' +
+        (photos.length > 1 ? '<button class="z-nav z-prev" aria-label="Previous">' + ICON.left + '</button><button class="z-nav z-next" aria-label="Next">' + ICON.right + "</button>" : "") +
+        '<div class="z-hint">' + esc(t("zoom_hint")) + "</div>" +
+        '<div class="z-thumbs">' + photos.map(function (ph, n) { return '<button data-n="' + n + '"><img src="' + esc(ph.src) + '" alt=""></button>'; }).join("") + "</div>";
+      document.body.appendChild(v);
+      document.body.style.overflow = "hidden";
+      var zi = v.querySelector(".z-img"), stage = v.querySelector(".z-stage"), zt = v.querySelectorAll(".z-thumbs button");
+      requestAnimationFrame(function () { v.classList.add("open"); });
+
+      function apply(anim) {
+        zi.style.transition = anim ? "transform .3s cubic-bezier(.2,.8,.2,1)" : "none";
+        zi.style.transform = "translate(" + tx + "px," + ty + "px) scale(" + scale + ")";
+        v.classList.toggle("zoomed", scale > 1.01);
+      }
+      function clamp() {
+        var r = stage.getBoundingClientRect(), w = zi.clientWidth * scale, h = zi.clientHeight * scale;
+        var mx = Math.max(0, (w - r.width) / 2), my = Math.max(0, (h - r.height) / 2);
+        tx = Math.max(-mx, Math.min(mx, tx)); ty = Math.max(-my, Math.min(my, ty));
+      }
+      function reset(anim) { scale = 1; tx = 0; ty = 0; apply(anim); }
+      function go(n) {
+        k = (n + photos.length) % photos.length;
+        zi.classList.add("swap");
+        setTimeout(function () {
+          zi.src = photos[k].src; reset(false);
+          v.querySelector(".z-count").textContent = (k + 1) + " / " + photos.length;
+          v.querySelector(".z-label").textContent = photos[k].label || "";
+          zt.forEach(function (b, m) { b.classList.toggle("on", m === k); });
+          if (zt[k] && zt[k].scrollIntoView) zt[k].scrollIntoView({ block: "nearest", inline: "center" });
+          zi.classList.remove("swap");
+        }, zi.getAttribute("src") ? 140 : 0);
+      }
+      function zoomAt(ns, cx, cy) {
+        var r = zi.getBoundingClientRect();
+        var ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height / 2);
+        var f = ns / scale;
+        tx = tx - ox * (f - 1); ty = ty - oy * (f - 1);
+        scale = ns; clamp(); apply(true);
+      }
+      function close() {
+        v.classList.remove("open");
+        document.body.style.overflow = "";
+        document.removeEventListener("keydown", onKey);
+        setTimeout(function () { if (v.parentNode) v.parentNode.removeChild(v); }, 260);
+        show(k, k > i ? 1 : -1);
+        setPaused(false);
+      }
+      function onKey(e) {
+        if (e.key === "Escape") close();
+        else if (e.key === "ArrowRight") go(k + 1);
+        else if (e.key === "ArrowLeft") go(k - 1);
+        else if (e.key === "+" || e.key === "=") zoomAt(Math.min(4, scale * 1.5), innerWidth / 2, innerHeight / 2);
+        else if (e.key === "-") { if (scale / 1.5 <= 1.01) reset(true); else zoomAt(scale / 1.5, innerWidth / 2, innerHeight / 2); }
+        e.stopPropagation();
+      }
+      document.addEventListener("keydown", onKey);
+      v.querySelector(".z-close").onclick = close;
+      var zp = v.querySelector(".z-prev"), zn = v.querySelector(".z-next");
+      if (zp) zp.onclick = function () { go(k - 1); };
+      if (zn) zn.onclick = function () { go(k + 1); };
+      zt.forEach(function (b) { b.onclick = function () { go(+b.getAttribute("data-n")); }; });
+
+      // desktop: click toggles 2.5x at the cursor, wheel zooms, drag pans
+      var lastTap = 0, dragging = false, moved = false, px = 0, py = 0;
+      stage.addEventListener("wheel", function (e) {
+        e.preventDefault();
+        var ns = Math.max(1, Math.min(4, scale * (e.deltaY < 0 ? 1.15 : 1 / 1.15)));
+        if (ns <= 1.01) reset(true); else zoomAt(ns, e.clientX, e.clientY);
+      }, { passive: false });
+      stage.addEventListener("mousedown", function (e) { dragging = true; moved = false; px = e.clientX; py = e.clientY; });
+      window.addEventListener("mousemove", function (e) {
+        if (!dragging || scale <= 1) return;
+        moved = true; tx += e.clientX - px; ty += e.clientY - py; px = e.clientX; py = e.clientY; clamp(); apply(false);
+      });
+      window.addEventListener("mouseup", function () { dragging = false; });
+      stage.addEventListener("click", function (e) {
+        if (moved) return;
+        if (e.target === stage && scale <= 1) { close(); return; }
+        if (scale > 1.01) reset(true); else zoomAt(2.5, e.clientX, e.clientY);
+      });
+
+      // touch: pinch to zoom, drag to pan, double-tap to zoom, swipe for next when not zoomed
+      var t0 = null, pinch = null, sxs = 0, sys = 0, swipeX = 0;
+      stage.addEventListener("touchstart", function (e) {
+        if (e.touches.length === 2) {
+          var a = e.touches[0], b = e.touches[1];
+          pinch = { d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY), s: scale, cx: (a.clientX + b.clientX) / 2, cy: (a.clientY + b.clientY) / 2 };
+        } else if (e.touches.length === 1) {
+          t0 = { x: e.touches[0].clientX, y: e.touches[0].clientY, tx: tx, ty: ty, time: Date.now() };
+          sxs = t0.x; sys = t0.y; swipeX = 0;
+        }
+      }, { passive: true });
+      stage.addEventListener("touchmove", function (e) {
+        if (pinch && e.touches.length === 2) {
+          e.preventDefault();
+          var a = e.touches[0], b = e.touches[1];
+          var d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+          var ns = Math.max(1, Math.min(4, pinch.s * d / pinch.d));
+          var f = ns / scale, r = zi.getBoundingClientRect();
+          tx -= (pinch.cx - (r.left + r.width / 2)) * (f - 1); ty -= (pinch.cy - (r.top + r.height / 2)) * (f - 1);
+          scale = ns; clamp(); apply(false);
+        } else if (t0 && e.touches.length === 1) {
+          var dx = e.touches[0].clientX - t0.x, dy = e.touches[0].clientY - t0.y;
+          if (scale > 1.01) { e.preventDefault(); tx = t0.tx + dx; ty = t0.ty + dy; clamp(); apply(false); }
+          else { swipeX = dx; zi.style.transition = "none"; zi.style.transform = "translateX(" + dx * 0.5 + "px)"; }
+        }
+      }, { passive: false });
+      stage.addEventListener("touchend", function (e) {
+        if (pinch && e.touches.length < 2) { pinch = null; if (scale <= 1.02) reset(true); return; }
+        if (!t0) return;
+        var now = Date.now();
+        var tapped = Math.abs(swipeX) < 10 && now - t0.time < 250;
+        if (scale <= 1.01) {
+          if (Math.abs(swipeX) > 60) { go(swipeX < 0 ? k + 1 : k - 1); }
+          else apply(true);
+        }
+        if (tapped) {
+          if (now - lastTap < 300) {
+            if (scale > 1.01) reset(true); else zoomAt(2.5, sxs, sys);
+            lastTap = 0;
+          } else lastTap = now;
+        }
+        t0 = null;
+      });
+      go(k);
+    }
+    var zb = document.getElementById("gzoom");
+    if (zb) zb.onclick = function (e) { e.stopPropagation(); openViewer(i); };
+    img.style.cursor = "zoom-in";
+    img.addEventListener("click", function () { openViewer(i); });
+    // double-tap the photo on phones opens zoom too
+    var lt = 0;
+    gm.addEventListener("touchend", function (e) {
+      var n = Date.now();
+      if (n - lt < 300 && e.target === img) { openViewer(i); lt = 0; } else lt = n;
+    });
   }
 
   /* ---------------- boot ---------------- */
