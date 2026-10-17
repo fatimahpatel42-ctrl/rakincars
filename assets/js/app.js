@@ -299,7 +299,15 @@
           '<p class="foot-addr">' + esc(INFO.address || "") + '</p><a class="foot-dir" href="' + esc(mapsLink()) + '" target="_blank" rel="noopener">' + esc(t("directions")) + " →</a>" +
         "</div>" +
       "</div>" +
+      '<div class="foot-word" aria-hidden="true"><span>RAKIN CARS</span></div>' +
+      '<div class="foot-road" aria-hidden="true"><span class="foot-car"><i class="foot-beam"></i><img src="assets/img/logo-car.png" alt=""></span></div>' +
       '<div class="wrap foot-bottom"><span>© ' + new Date().getFullYear() + " Rakin Cars · " + esc(t("rights")) + "</span><a href=\"#top\" class=\"to-top\">↑ Top</a></div>";
+    if ("IntersectionObserver" in window) {
+      var fio = new IntersectionObserver(function (en) {
+        en.forEach(function (x) { f.classList.toggle("live", x.isIntersecting); });
+      }, { threshold: 0.15 });
+      fio.observe(f);
+    } else f.classList.add("live");
     var tt = f.querySelector(".to-top");
     if (tt) tt.onclick = function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); };
   }
