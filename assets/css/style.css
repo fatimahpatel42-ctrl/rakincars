@@ -945,3 +945,23 @@ body.leaving { opacity: 0; transition: opacity .25s ease; }
 #intro.hit .intro-glow { animation: hitGlow .6s ease-out forwards; }
 @keyframes hit { 0% { transform: scale(1); } 30% { transform: scale(1.08); filter: drop-shadow(0 0 24px rgba(225,37,27,.8)); } 100% { transform: scale(1.02); } }
 @keyframes hitGlow { 0% { opacity: 1; transform: scale(1); } 40% { opacity: 1; transform: scale(1.4); } 100% { opacity: .6; transform: scale(1.2); } }
+
+/* showroom placeholder photo is a wide shot: keep it landscape */
+.showroom-grid { align-items: center; }
+.showroom-photo { aspect-ratio: 4 / 3; min-height: 0; align-self: center; }
+.showroom-photo img { object-position: 50% 60%; }
+@media (max-width: 860px) { .showroom-photo { aspect-ratio: 4 / 3; } }
+
+/* showroom: wide photo banner on top, details + map below */
+.showroom-grid { grid-template-columns: 1fr; gap: 40px; }
+.showroom-photo { order: -1; aspect-ratio: 21 / 9; border-radius: 24px; }
+.showroom-photo img { object-position: 50% 62%; }
+.showroom-photo::after { background: linear-gradient(180deg, transparent 70%, rgba(6,8,9,.7)); }
+.showroom-photo figcaption { left: 28px; bottom: 22px; }
+.showroom-info { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center; }
+.showroom-info .map { margin-top: 0; }
+@media (max-width: 860px) {
+  .showroom-photo { aspect-ratio: 4 / 3; border-radius: 18px; }
+  .showroom-info { grid-template-columns: 1fr; gap: 26px; }
+  .showroom-photo figcaption { left: 18px; bottom: 16px; }
+}
