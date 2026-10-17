@@ -53,6 +53,7 @@ window.RAKIN_CARS = [
     tradeIn: true,
     cardImage: "assets/img/cars/g450d/card.jpg",
     photos: [
+      { src: "assets/img/cars/g450d/showroom.jpg", label: "Showroom" },
       { src: "assets/img/cars/g450d/front.jpg", label: "Front" },
       { src: "assets/img/cars/g450d/side.jpg", label: "Side" },
       { src: "assets/img/cars/g450d/rear.jpg", label: "Rear" },
@@ -64,7 +65,7 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/g450d/wheel.jpg", label: "Wheels" },
       { src: "assets/img/cars/g450d/rear-close.jpg", label: "Tailgate" },
       { src: "assets/img/cars/g450d/lights.jpg", label: "Night" },
-      { src: "assets/img/cars/g450d/rear-far.jpg", label: "Showroom" }
+      { src: "assets/img/cars/g450d/rear-far.jpg", label: "Rear view" }
     ],
     video: { src: "assets/video/walkaround-g450d.mp4", poster: "assets/video/walkaround-g450d.jpg" },
     about:
