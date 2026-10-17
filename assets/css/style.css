@@ -1202,3 +1202,11 @@ body[data-page="all"] .filters { grid-template-columns: repeat(3, 1fr); }
   body[data-page="all"] .chip { flex: none; }
   body[data-page="all"] .page-head h1 { font-size: 36px; }
 }
+
+/* car with no photo yet */
+.no-photo {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: radial-gradient(circle at 50% 40%, rgba(225,37,27,.12), transparent 60%), var(--card-2);
+  color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+}
+.no-photo img { width: 46%; max-width: 180px; height: auto; opacity: .85; transform: none !important; }

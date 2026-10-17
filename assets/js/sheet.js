@@ -6,7 +6,7 @@
 
   Leave it empty ("") to use the cars written in assets/js/cars-data.js instead.
 */
-window.RAKIN_SHEET = "";
+window.RAKIN_SHEET = "https://docs.google.com/spreadsheets/d/1tr8T_346TOCAec8eSxxtqQsSybfwKpUQGnx8fmx45uI/edit?usp=sharing";
 
 (function () {
   "use strict";

@@ -62,7 +62,7 @@
       msg_more: "Hi Rakin Cars, I'm looking for a car. Model: , Budget (TZS): ",
       just_arrived: "Just arrived", nudge: "Ask about this car?",
       to_light: "Switch to light mode", to_dark: "Switch to dark mode",
-      watch_ig: "Watch the video on Instagram",
+      watch_ig: "Watch the video on Instagram", photos_soon: "Photos coming soon",
       search_ph: "Search e.g. Prado 2019, white, diesel", hide_sold: "Hide sold", sort_by: "Sort",
       sort_rec: "Recommended", sort_new: "Newest arrivals", sort_plow: "Price: low to high", sort_phigh: "Price: high to low",
       sort_year: "Year: newest first", sort_km: "Mileage: lowest first",
@@ -127,7 +127,7 @@
       msg_more: "Habari Rakin Cars, natafuta gari. Aina: , Bajeti (TZS): ",
       just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?",
       to_light: "Badilisha kwenda mwanga", to_dark: "Badilisha kwenda giza",
-      watch_ig: "Tazama video Instagram",
+      watch_ig: "Tazama video Instagram", photos_soon: "Picha zinakuja hivi karibuni",
       search_ph: "Tafuta mf. Prado 2019, V8, dizeli", hide_sold: "Ficha yaliyouzwa", sort_by: "Panga",
       sort_rec: "Yanayopendekezwa", sort_new: "Yaliyoingia karibuni", sort_plow: "Bei: chini kwenda juu", sort_phigh: "Bei: juu kwenda chini",
       sort_year: "Mwaka: mapya kwanza", sort_km: "Kilomita: chache kwanza",
@@ -326,13 +326,16 @@
   function cardHTML(c) {
     return (
       '<a class="card' + (c.status === "sold" ? " is-sold" : "") + '" href="car.html?id=' + encodeURIComponent(c.id) + '">' +
-      '<div class="card-img"><img src="' + esc(c.cardImage || (c.photos && c.photos[0] && c.photos[0].src)) + '" alt="' + esc(carName(c)) + '" loading="lazy">' + badge(c) +
+      '<div class="card-img">' + ((c.cardImage || (c.photos && c.photos[0] && c.photos[0].src)) ? '<img src="' + esc(c.cardImage || c.photos[0].src) + '" alt="' + esc(carName(c)) + '" loading="lazy">' : noPhoto()) + badge(c) +
       (c.featured && c.status === "available" ? '<span class="ribbon">' + esc(t("just_arrived")) + "</span>" : "") +
       (c.status === "sold" ? '<span class="sold-stamp">' + esc(t("st_sold")) + "</span>" : "") + "</div>" +
       '<div class="card-body"><div class="card-title">' + esc(carName(c)) + "</div>" +
       '<div class="card-meta">' + esc(carMeta(c) || c.body || "") + "</div>" +
       priceHTML(c, "card-price") + "</div></a>"
     );
+  }
+  function noPhoto() {
+    return '<div class="no-photo"><img src="assets/img/logo-car.png" alt=""><span>' + esc(t("photos_soon")) + "</span></div>";
   }
   function moreCardHTML() {
     return (
@@ -572,7 +575,7 @@
     document.title = name + " · Rakin Cars";
     var msg = t("msg_car").replace("{car}", (c.year ? c.year + " " : "") + name).replace("{ref}", c.ref || c.id);
     var tradeMsg = t("msg_trade").replace("{car}", (c.year ? c.year + " " : "") + name).replace("{ref}", c.ref || c.id);
-    var photos = c.photos && c.photos.length ? c.photos : [{ src: c.cardImage, label: "" }];
+    var photos = c.photos && c.photos.length ? c.photos : (c.cardImage ? [{ src: c.cardImage, label: "" }] : [{ src: "assets/img/showroom.jpg", label: t("photos_soon") }]);
     var specs = [
       ["sp_year", c.year], ["sp_mileage", c.mileage != null ? num(c.mileage) + " km" : null], ["sp_fuel", v(c.fuel)],
       ["sp_trans", v(c.transmission)], ["sp_engine", c.engine], ["sp_drive", c.drive], ["sp_colour", c.colour],
