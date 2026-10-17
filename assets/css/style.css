@@ -1148,3 +1148,57 @@ body.leaving { opacity: 0; transition: opacity .25s ease; }
 }
 .site-footer.live .foot-road::before { animation: lanesRight 1.2s linear infinite; }
 @keyframes lanesRight { to { background-position: 52px 0; } }
+
+/* =========================================================
+   CARS PAGE: search, sort, load more
+   ========================================================= */
+.toolbar { display: flex; align-items: center; gap: 16px; margin-top: 22px; flex-wrap: wrap; }
+.tb-search {
+  flex: 1 1 340px; display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 8px 0 16px;
+  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.tb-search:focus-within { border-color: var(--red); box-shadow: 0 0 0 4px rgba(225,37,27,.15); }
+.tb-search svg { width: 19px; height: 19px; color: var(--muted); flex: none; }
+.tb-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; color: var(--text); font: inherit; font-size: 15.5px; }
+.tb-search input::placeholder { color: var(--muted); opacity: .8; }
+.tb-search input::-webkit-search-cancel-button { display: none; }
+.tb-search button { width: 32px; height: 32px; border-radius: 50%; border: 0; background: var(--card-2); color: var(--text); display: none; }
+.tb-search.has-q button { display: block; }
+.tb-right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.tb-check { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; color: var(--muted); cursor: pointer; user-select: none; }
+.tb-check input { width: 18px; height: 18px; accent-color: var(--red); }
+.tb-sort { display: inline-flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--muted); }
+.tb-sort select {
+  height: 50px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--text);
+  font: inherit; font-size: 15px; padding: 0 38px 0 14px; appearance: none; -webkit-appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3abaf' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+}
+.tb-sort select:focus { outline: 0; border-color: var(--red); }
+.more-wrap { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.more-note { color: var(--muted); font-size: 14px; }
+.more-bar { width: 220px; height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.more-bar i { display: block; height: 100%; background: var(--red); transition: width .4s ease; }
+#more { min-width: 220px; }
+[data-theme="light"] .tb-search, [data-theme="light"] .tb-sort select { background: #fff; }
+@media (max-width: 600px) {
+  .toolbar { gap: 12px; }
+  .tb-search { flex-basis: 100%; }
+  .tb-right { width: 100%; justify-content: space-between; }
+  .tb-sort select { height: 46px; }
+}
+
+/* cars page: filters update live, so drop the button and keep things compact */
+body[data-page="all"] .filters .btn { display: none; }
+body[data-page="all"] .filters { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 860px) {
+  body[data-page="all"] .filters { grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
+  body[data-page="all"] .filters .field-price { grid-column: auto; }
+  body[data-page="all"] .filters select { height: 42px; font-size: 14px; }
+  body[data-page="all"] .filters label { font-size: 12px; margin-bottom: 4px; }
+  body[data-page="all"] .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -20px; margin-right: -20px; padding: 0 20px; }
+  body[data-page="all"] .chips::-webkit-scrollbar { display: none; }
+  body[data-page="all"] .chip { flex: none; }
+  body[data-page="all"] .page-head h1 { font-size: 36px; }
+}

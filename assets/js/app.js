@@ -63,6 +63,10 @@
       just_arrived: "Just arrived", nudge: "Ask about this car?",
       to_light: "Switch to light mode", to_dark: "Switch to dark mode",
       watch_ig: "Watch the video on Instagram",
+      search_ph: "Search e.g. Prado 2019, white, diesel", hide_sold: "Hide sold", sort_by: "Sort",
+      sort_rec: "Recommended", sort_new: "Newest arrivals", sort_plow: "Price: low to high", sort_phigh: "Price: high to low",
+      sort_year: "Year: newest first", sort_km: "Mileage: lowest first",
+      load_more: "Load more cars", showing: "Showing {a} of {b} cars",
       zoom: "Zoom", zoom_hint: "Pinch or double-tap to zoom · swipe for next", close: "Close",
       brands_label: "Brands we sell & source",
       latest_kicker: "In stock now", latest_sub: "Hand-picked, inspected and ready to view at our Mikocheni showroom.",
@@ -124,6 +128,10 @@
       just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?",
       to_light: "Badilisha kwenda mwanga", to_dark: "Badilisha kwenda giza",
       watch_ig: "Tazama video Instagram",
+      search_ph: "Tafuta mf. Prado 2019, V8, dizeli", hide_sold: "Ficha yaliyouzwa", sort_by: "Panga",
+      sort_rec: "Yanayopendekezwa", sort_new: "Yaliyoingia karibuni", sort_plow: "Bei: chini kwenda juu", sort_phigh: "Bei: juu kwenda chini",
+      sort_year: "Mwaka: mapya kwanza", sort_km: "Kilomita: chache kwanza",
+      load_more: "Onyesha magari zaidi", showing: "Inaonyesha {a} kati ya {b}",
       zoom: "Kuza", zoom_hint: "Bana au gusa mara mbili kukuza · telezesha kwa inayofuata", close: "Funga",
       brands_label: "Aina tunazouza na kuagiza",
       latest_kicker: "Yaliyopo sasa", latest_sub: "Yamechaguliwa, yamekaguliwa na tayari kuonwa showroom yetu Mikocheni.",
@@ -407,27 +415,138 @@
   function setHref(id, href) { var el = document.getElementById(id); if (el) el.href = href; }
 
   function pageAll() {
-    var sel = { make: param("make") || "", body: param("body") || "", max: param("max") || "" };
+    var PAGE = 12;
+    var st = {
+      make: param("make") || "", body: param("body") || "", max: param("max") || "",
+      q: param("q") || "", sort: param("sort") || "rec", hideSold: param("sold") === "hide", shown: PAGE
+    };
     var form = document.getElementById("search-form");
-    fillFilters(form, sel);
-    form.addEventListener("change", function () { form.submit(); });
-    document.getElementById("chips").innerHTML = chipsHTML(sel.make);
-    var list = sortCars(CARS).filter(function (c) {
-      if (sel.make && c.make !== sel.make) return false;
-      if (sel.body && c.body !== sel.body) return false;
-      if (sel.max && c.priceTZS != null && c.priceTZS > Number(sel.max)) return false;
-      return true;
-    });
-    var n = list.length, filtered = sel.make || sel.body || sel.max;
-    document.getElementById("count").innerHTML = n + " " + esc(n === 1 ? t("results_one") : t("results_many")) + " " + esc(t("results_found")) +
-      (filtered ? ' · <a class="link-red" href="cars.html">' + esc(t("clear")) + "</a>" : "");
-    var grid = document.getElementById("all");
-    if (!n) {
-      grid.innerHTML = '<div class="empty-note" style="grid-column:1/-1"><strong>' + esc(t("none_found")) + "</strong>" +
-        '<a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa(t("msg_import")) + '">' + ICON.wa + esc(t("none_btn")) + "</a></div>";
-    } else {
-      grid.innerHTML = list.map(cardHTML).join("") + (n < 4 && !filtered ? moreCardHTML() : "");
+    var qEl = document.getElementById("q"), sortEl = document.getElementById("sort"), hsEl = document.getElementById("hide-sold");
+    var grid = document.getElementById("all"), moreWrap = document.getElementById("more-wrap"), moreBtn = document.getElementById("more");
+    fillFilters(form, st);
+    qEl.value = st.q; sortEl.value = st.sort; hsEl.checked = st.hideSold;
+    qEl.placeholder = t("search_ph");
+    document.getElementById("q-clear").onclick = function () { qEl.value = ""; st.q = ""; update(true); qEl.focus(); };
+
+    function norm(x) { return String(x == null ? "" : x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim(); }
+    function hay(c) {
+      return norm([c.make, c.model, c.variant, c.name, c.year, c.body, c.fuel, c.transmission, c.colour, c.ref, c.importedFrom, c.engine, c.drive, VALUE_SW[c.fuel], VALUE_SW[c.transmission], T.en["st_" + (c.status || "available")], T.sw["st_" + (c.status || "available")]].join(" "));
     }
+    function matchQ(c, q) {
+      if (!q) return true;
+      var h = " " + hay(c) + " ";
+      return norm(q).split(" ").every(function (w) {
+        if (!w) return true;
+        if (h.indexOf(" " + w) >= 0) return true;
+        var n = w.replace(/^0+/, "");
+        return /\d/.test(w) && h.indexOf(n) >= 0;
+      });
+    }
+    function sorter(mode) {
+      var rank = { available: 0, arriving: 1, reserved: 2, sold: 3 };
+      var base = function (a, b) { return (rank[a.status] || 0) - (rank[b.status] || 0); };
+      var nul = function (v, big) { return v == null ? (big ? Infinity : -Infinity) : v; };
+      return function (a, b) {
+        var r = base(a, b);
+        if (mode === "rec") return (!!b.featured - !!a.featured) || r || a._i - b._i;
+        if (r && mode !== "new") return r;
+        if (mode === "new") return (!!b.featured - !!a.featured) || a._i - b._i;
+        if (mode === "plow") return nul(a.priceTZS, true) - nul(b.priceTZS, true) || a._i - b._i;
+        if (mode === "phigh") return nul(b.priceTZS, false) - nul(a.priceTZS, false) || a._i - b._i;
+        if (mode === "year") return nul(b.year, false) - nul(a.year, false) || a._i - b._i;
+        if (mode === "km") return nul(a.mileage, true) - nul(b.mileage, true) || a._i - b._i;
+        return a._i - b._i;
+      };
+    }
+    CARS.forEach(function (c, k) { c._i = k; });
+
+    function syncURL() {
+      var u = new URLSearchParams();
+      if (st.make) u.set("make", st.make);
+      if (st.body) u.set("body", st.body);
+      if (st.max) u.set("max", st.max);
+      if (st.q) u.set("q", st.q);
+      if (st.sort !== "rec") u.set("sort", st.sort);
+      if (st.hideSold) u.set("sold", "hide");
+      var qs = u.toString();
+      try { history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "")); } catch (e) {}
+    }
+
+    var current = [];
+    function update(resetPage) {
+      if (resetPage) st.shown = PAGE;
+      document.getElementById("chips").innerHTML = chipsHTML(st.make);
+      current = CARS.filter(function (c) {
+        if (st.make && c.make !== st.make) return false;
+        if (st.body && c.body !== st.body) return false;
+        if (st.max && c.priceTZS != null && c.priceTZS > Number(st.max)) return false;
+        if (st.hideSold && c.status === "sold") return false;
+        return matchQ(c, st.q);
+      }).sort(sorter(st.sort));
+      var n = current.length, filtered = st.make || st.body || st.max || st.q || st.hideSold;
+      document.getElementById("count").innerHTML = n + " " + esc(n === 1 ? t("results_one") : t("results_many")) + " " + esc(t("results_found")) +
+        (filtered ? ' · <a class="link-red" href="cars.html" id="clear-all">' + esc(t("clear")) + "</a>" : "");
+      document.querySelector(".tb-search").classList.toggle("has-q", !!st.q);
+      if (!n) {
+        grid.innerHTML = '<div class="empty-note" style="grid-column:1/-1"><strong>' + esc(t("none_found")) + "</strong>" +
+          '<a class="btn btn-wa" target="_blank" rel="noopener" href="' + wa(t("msg_import")) + '">' + ICON.wa + esc(t("none_btn")) + "</a></div>";
+        moreWrap.hidden = true;
+      } else {
+        grid.innerHTML = current.slice(0, st.shown).map(cardHTML).join("") + (n < 4 && !filtered ? moreCardHTML() : "");
+        paintMore();
+      }
+      syncURL();
+      requestAnimationFrame(reveals);
+      countUps();
+    }
+    function paintMore() {
+      var n = current.length, s = Math.min(st.shown, n);
+      moreWrap.hidden = n <= PAGE;
+      document.getElementById("more-note").textContent = t("showing").replace("{a}", s).replace("{b}", n);
+      document.getElementById("more-bar").style.width = (s / n * 100) + "%";
+      moreBtn.hidden = s >= n;
+    }
+    moreBtn.onclick = function () {
+      var from = st.shown;
+      st.shown += PAGE;
+      grid.insertAdjacentHTML("beforeend", current.slice(from, st.shown).map(cardHTML).join(""));
+      paintMore();
+      requestAnimationFrame(reveals);
+      countUps();
+    };
+    // auto "load more" when the visitor scrolls near the button (after the first manual tap)
+    var autoMore = false;
+    moreBtn.addEventListener("click", function () { autoMore = true; });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) {
+        if (autoMore && en[0].isIntersecting && !moreBtn.hidden) moreBtn.click();
+      }, { rootMargin: "300px" }).observe(moreWrap);
+    }
+
+    var qt = null;
+    qEl.addEventListener("input", function () { clearTimeout(qt); qt = setTimeout(function () { st.q = qEl.value.trim(); update(true); }, 180); });
+    qEl.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); qEl.blur(); } });
+    sortEl.onchange = function () { st.sort = sortEl.value; update(true); };
+    hsEl.onchange = function () { st.hideSold = hsEl.checked; update(true); };
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+    form.addEventListener("change", function () {
+      st.make = form.make.value; st.body = form.body.value; st.max = form.max.value; update(true);
+    });
+    document.getElementById("chips").addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a.chip");
+      if (!a) return;
+      e.preventDefault(); e.stopPropagation();
+      var m = new URL(a.href).searchParams.get("make") || "";
+      st.make = st.make === m ? "" : m; form.make.value = st.make; update(true);
+    }, true);
+    document.getElementById("count").addEventListener("click", function (e) {
+      if (e.target.id !== "clear-all") return;
+      e.preventDefault(); e.stopPropagation();
+      st = { make: "", body: "", max: "", q: "", sort: st.sort, hideSold: false, shown: PAGE };
+      form.make.value = ""; form.body.value = ""; form.max.value = ""; qEl.value = ""; hsEl.checked = false;
+      update(true);
+    }, true);
+    update(true);
   }
 
   function videoHTML(vd) {
@@ -828,9 +947,10 @@
   var FINE = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   function countUps() {
-    var els = document.querySelectorAll("[data-count]");
+    var els = document.querySelectorAll("[data-count]:not([data-counted])");
     if (!els.length) return;
     function run(el) {
+      el.setAttribute("data-counted", "1");
       var to = +el.getAttribute("data-count"), from = +(el.getAttribute("data-from") || 0), plain = el.hasAttribute("data-plain");
       var t0 = null, dur = 1400;
       function step(ts) {

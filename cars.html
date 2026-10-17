@@ -32,8 +32,33 @@
           <button class="btn btn-dark" type="submit" data-t="search">Search cars</button>
         </form>
         <div class="chips" id="chips" style="margin-top:18px"></div>
+        <div class="toolbar">
+          <label class="tb-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="q" type="search" autocomplete="off" data-ph="search_ph" placeholder="Search e.g. Prado 2019, white, RC-0143">
+            <button type="button" id="q-clear" aria-label="Clear">✕</button>
+          </label>
+          <div class="tb-right">
+            <label class="tb-check"><input type="checkbox" id="hide-sold"><span data-t="hide_sold">Hide sold</span></label>
+            <label class="tb-sort"><span data-t="sort_by">Sort</span>
+              <select id="sort">
+                <option value="rec" data-t="sort_rec">Recommended</option>
+                <option value="new" data-t="sort_new">Newest arrivals</option>
+                <option value="plow" data-t="sort_plow">Price: low to high</option>
+                <option value="phigh" data-t="sort_phigh">Price: high to low</option>
+                <option value="year" data-t="sort_year">Year: newest first</option>
+                <option value="km" data-t="sort_km">Mileage: lowest first</option>
+              </select>
+            </label>
+          </div>
+        </div>
         <p class="result-count" id="count"></p>
         <div class="cards" id="all"></div>
+        <div class="more-wrap" id="more-wrap" hidden>
+          <p class="more-note" id="more-note"></p>
+          <div class="more-bar"><i id="more-bar"></i></div>
+          <button class="btn btn-ghost" id="more" type="button" data-t="load_more">Load more cars</button>
+        </div>
       </div>
     </section>
   </main>
