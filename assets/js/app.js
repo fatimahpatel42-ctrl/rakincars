@@ -63,6 +63,10 @@
       just_arrived: "Just arrived", nudge: "Ask about this car?",
       to_light: "Switch to light mode", to_dark: "Switch to dark mode",
       watch_ig: "Watch the video on Instagram",
+      brands_label: "Brands we sell & source",
+      latest_kicker: "In stock now", latest_sub: "Hand-picked, inspected and ready to view at our Mikocheni showroom.",
+      svc_kicker: "More than sales", svc_title: "Sell, trade or import", svc_sub: "Selling your car, trading up, or after something we don't have yet? We handle it.",
+      tap_enter: "Tap to enter",
       f_explore: "Explore", f_contact: "Contact", f_hours: "Opening hours",
       directions: "Get directions", f_tag: "Premium pre-owned luxury cars. Imported, inspected and ready to drive.",
       rights: "All rights reserved."
@@ -119,6 +123,10 @@
       just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?",
       to_light: "Badilisha kwenda mwanga", to_dark: "Badilisha kwenda giza",
       watch_ig: "Tazama video Instagram",
+      brands_label: "Aina tunazouza na kuagiza",
+      latest_kicker: "Yaliyopo sasa", latest_sub: "Yamechaguliwa, yamekaguliwa na tayari kuonwa showroom yetu Mikocheni.",
+      svc_kicker: "Zaidi ya mauzo", svc_title: "Uza, badilisha au agiza", svc_sub: "Unauza gari lako, unataka kubadilisha, au unatafuta gari ambalo hatuna bado? Tunakushughulikia.",
+      tap_enter: "Gusa kuingia",
       f_explore: "Tembelea", f_contact: "Mawasiliano", f_hours: "Saa za kazi",
       directions: "Pata maelekezo", f_tag: "Magari ya kifahari yaliyotumika. Yameagizwa, yamekaguliwa na tayari kuendeshwa.",
       rights: "Haki zote zimehifadhiwa."
@@ -563,18 +571,49 @@
     el.setAttribute("aria-hidden", "true");
     el.innerHTML = '<div class="intro-beam"></div><div class="intro-glow"></div>' +
       '<div class="intro-logo"><span class="logo-shine big"><img src="assets/img/logo-white.png" alt=""></span></div>' +
-      '<div class="intro-line"></div><div class="intro-tag">Mikocheni · Dar es Salaam</div>';
+      '<div class="intro-line"></div><div class="intro-tag">Mikocheni · Dar es Salaam</div>' +
+      '<button class="intro-tap" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg><span>' + esc(t("tap_enter")) + "</span></button>";
     document.body.appendChild(el);
     document.body.classList.add("intro-on");
+    var finished = false;
     var done = function () {
-      if (!el.parentNode) return;
+      if (finished) return;
+      finished = true;
       el.classList.add("out");
       document.body.classList.remove("intro-on");
       document.body.classList.add("ready");
       setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 700);
     };
-    el.addEventListener("click", done);
-    setTimeout(done, 2300);
+
+    // Sound: browsers only allow sound after a tap, unless the visitor has
+    // interacted with the site before. Try to play straight away; if the
+    // browser blocks it, show "Tap to enter" so the tap can play the sound.
+    var played = false, blocked = false;
+    function sfx(src, vol) {
+      try { var a = new Audio(src); a.volume = vol; return a.play().then(function () { return true; }); }
+      catch (e) { return Promise.reject(e); }
+    }
+    sfx("assets/audio/intro.mp3", 0.55).then(function () {
+      played = true;
+      setTimeout(done, 2600);
+    }).catch(function () {
+      blocked = true;
+      setTimeout(function () { if (!finished) el.classList.add("ask"); }, 1500);
+      setTimeout(done, 6000); // nobody tapped: carry on silently
+    });
+    el.addEventListener("click", function () {
+      if (finished) return;
+      if (blocked && !played) {
+        played = true;
+        el.classList.remove("ask");
+        el.classList.add("hit");
+        sfx("assets/audio/enter.mp3", 0.6).catch(function () {});
+        setTimeout(done, 650);
+      } else done();
+    });
+    window.addEventListener("keydown", function k(e) {
+      if (e.key === "Enter" || e.key === " " || e.key === "Escape") { window.removeEventListener("keydown", k); el.click(); }
+    });
   }
 
   function reveals() {

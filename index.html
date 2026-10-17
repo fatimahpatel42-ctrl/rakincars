@@ -52,20 +52,31 @@
       </div>
     </section>
 
-    <!-- LATEST ARRIVALS -->
-    <section>
-      <div class="wrap">
-        <div class="sec-head">
-          <h2 data-t="latest">Latest arrivals</h2>
-          <a class="link-red" href="cars.html" data-t="view_all">View all cars →</a>
-        </div>
-        <div class="cards" id="latest"></div>
+    <!-- BRANDS STRIP -->
+    <section class="band brands-band" aria-label="Brands">
+      <div class="wrap brands-row">
+        <span class="brands-label" data-t="brands_label">Brands we sell &amp; source</span>
         <div class="chips" id="chips"></div>
       </div>
     </section>
 
+    <!-- LATEST ARRIVALS -->
+    <section class="sec alt" id="stock">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <div class="kicker" data-t="latest_kicker">In stock now</div>
+            <h2 data-t="latest">Latest arrivals</h2>
+            <p class="sec-sub" data-t="latest_sub"></p>
+          </div>
+          <a class="link-red" href="cars.html" data-t="view_all">View all cars →</a>
+        </div>
+        <div class="cards" id="latest"></div>
+      </div>
+    </section>
+
     <!-- WHY -->
-    <section id="why" class="why">
+    <section id="why" class="why sec">
       <div class="wrap why-layout">
         <div class="why-intro">
           <div class="kicker" data-t="why_kicker">The Rakin promise</div>
@@ -109,8 +120,17 @@
       </div>
     </section>
 
-    <!-- SELL / IMPORT -->
-    <section style="padding-top:0">
+    <!-- SERVICES: SELL / IMPORT -->
+    <section class="sec alt" id="services">
+      <div class="wrap">
+        <div class="sec-head">
+          <div>
+            <div class="kicker" data-t="svc_kicker">More than sales</div>
+            <h2 data-t="svc_title">Sell, trade or import</h2>
+            <p class="sec-sub" data-t="svc_sub"></p>
+          </div>
+        </div>
+      </div>
       <div class="wrap promo-grid">
         <div class="promo promo-red" id="sell">
           <h2 data-t="sell_t">Sell or exchange your car</h2>
@@ -134,7 +154,7 @@
     </section>
 
     <!-- SHOWROOM -->
-    <section class="showroom" id="visit">
+    <section class="showroom sec" id="visit">
       <div class="wrap showroom-grid">
         <div class="showroom-info">
           <div class="kicker" data-t="hero_kicker">Mikocheni · Dar es Salaam</div>
