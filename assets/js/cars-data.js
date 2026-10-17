@@ -120,8 +120,8 @@ window.RAKIN_INFO = {
   whatsapp: "255689091111",        // digits only, with country code
   instagram: "rakincars.tz",
   address: "Mikocheni, Dar es Salaam, Tanzania",
-  hours: null,                     // e.g. "Mon–Sat · 9:00–18:00"
-  hoursSw: null                    // e.g. "Jumatatu–Jumamosi · 3:00 asubuhi – 12:00 jioni"
+  hours: "8:30 AM – 6:30 PM",      // e.g. "Mon–Sat · 8:30 AM – 6:30 PM"
+  hoursSw: "Saa 2:30 asubuhi – Saa 12:30 jioni"
 };
 
 /* Customer reviews — only shown on the homepage once you add real ones.
