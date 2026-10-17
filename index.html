@@ -136,20 +136,26 @@
     <!-- SHOWROOM -->
     <section class="showroom" id="visit">
       <div class="wrap showroom-grid">
-        <div>
+        <div class="showroom-info">
+          <div class="kicker" data-t="hero_kicker">Mikocheni · Dar es Salaam</div>
           <h2 data-t="visit_t">Visit the showroom</h2>
-          <p>Mikocheni, Dar es Salaam, Tanzania</p>
+          <p id="visit-addr">Mikocheni, Dar es Salaam, Tanzania</p>
           <p id="hours" style="color:var(--muted);margin-top:4px"></p>
           <div class="hero-ctas">
             <a class="btn btn-red" id="visit-wa" href="#" target="_blank" rel="noopener" data-t="wa_us">WhatsApp us</a>
             <a class="btn btn-ghost" id="visit-call" href="tel:+255689091111"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg> Call +255 689 091 111</a>
           </div>
+          <div class="map">
+            <!-- To show the exact pin: Google Maps → search Rakin Cars → Share → Embed a map → paste its src here -->
+            <iframe title="Rakin Cars on the map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Mikocheni,+Dar+es+Salaam,+Tanzania&output=embed"></iframe>
+            <a class="map-dir" id="visit-dir" href="#" target="_blank" rel="noopener" data-t="directions">Get directions</a>
+          </div>
         </div>
-        <div class="map">
-          <!-- To show the exact pin: Google Maps → search Rakin Cars → Share → Embed a map → paste its src here -->
-          <iframe title="Rakin Cars on the map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=Mikocheni,+Dar+es+Salaam,+Tanzania&output=embed"></iframe>
-        </div>
+        <figure class="showroom-photo">
+          <img src="assets/img/showroom.jpg" alt="The Rakin Cars showroom in Mikocheni, Dar es Salaam" loading="lazy">
+          <figcaption><strong>Rakin Cars</strong><span data-t="hero_kicker">Mikocheni · Dar es Salaam</span></figcaption>
+        </figure>
       </div>
     </section>
   </main>
@@ -157,6 +163,7 @@
   <footer id="site-footer"></footer>
 
   <script src="assets/js/cars-data.js"></script>
+  <script src="assets/js/sheet.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

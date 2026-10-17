@@ -61,7 +61,11 @@
       msg_import: "Hi Rakin Cars, please help me find a car. Model: , Year: , Budget (TZS): ",
       msg_more: "Hi Rakin Cars, I'm looking for a car. Model: , Budget (TZS): ",
       just_arrived: "Just arrived", nudge: "Ask about this car?",
-      to_light: "Switch to light mode", to_dark: "Switch to dark mode"
+      to_light: "Switch to light mode", to_dark: "Switch to dark mode",
+      watch_ig: "Watch the video on Instagram",
+      f_explore: "Explore", f_contact: "Contact", f_hours: "Opening hours",
+      directions: "Get directions", f_tag: "Premium pre-owned luxury cars. Imported, inspected and ready to drive.",
+      rights: "All rights reserved."
     },
     sw: {
       nav_cars: "Magari yanauzwa", nav_sell: "Uza / Badilisha", nav_import: "Agiza gari",
@@ -113,7 +117,11 @@
       msg_import: "Habari Rakin Cars, naomba mnisaidie kupata gari. Aina: , Mwaka: , Bajeti (TZS): ",
       msg_more: "Habari Rakin Cars, natafuta gari. Aina: , Bajeti (TZS): ",
       just_arrived: "Limeingia sasa", nudge: "Uliza kuhusu gari hili?",
-      to_light: "Badilisha kwenda mwanga", to_dark: "Badilisha kwenda giza"
+      to_light: "Badilisha kwenda mwanga", to_dark: "Badilisha kwenda giza",
+      watch_ig: "Tazama video Instagram",
+      f_explore: "Tembelea", f_contact: "Mawasiliano", f_hours: "Saa za kazi",
+      directions: "Pata maelekezo", f_tag: "Magari ya kifahari yaliyotumika. Yameagizwa, yamekaguliwa na tayari kuendeshwa.",
+      rights: "Haki zote zimehifadhiwa."
     }
   };
   var VALUE_SW = { "Diesel": "Dizeli", "Petrol": "Petroli", "Automatic": "Automatiki", "Manual": "Manual", "Hybrid": "Haibridi" };
@@ -140,7 +148,7 @@
     }
     root.setAttribute("data-theme", th);
     try { localStorage.setItem("rc_theme", th); } catch (e) {}
-    document.querySelectorAll(".nav-logo img").forEach(function (im) { im.src = logoFor(th); });
+    document.querySelectorAll(".nav-logo img, .foot-logo img").forEach(function (im) { im.src = logoFor(th); });
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", th === "light" ? "#f5f4f0" : "#0d0f10");
     var b = document.getElementById("theme-btn");
@@ -159,7 +167,14 @@
   function wa(text) { return "https://wa.me/" + (INFO.whatsapp || "") + "?text=" + encodeURIComponent(text || ""); }
   function tel() { return "tel:" + String(INFO.phone || "").replace(/\s+/g, ""); }
   function num(n) { return Number(n).toLocaleString("en-US"); }
-  function carName(c) { return c.name || [c.make, c.variant || c.model].filter(Boolean).join(" "); }
+  function carName(c) {
+    if (c.name) return c.name;
+    var sq = function (x) { return String(x || "").toLowerCase().replace(/[^a-z0-9]/g, ""); };
+    var v = c.variant && c.variant !== c.model ? c.variant : "";
+    if (!v) return [c.make, c.model].filter(Boolean).join(" ");
+    if (!c.model || sq(v).indexOf(sq(c.model)) === 0 || sq(c.model).indexOf(sq(v)) === 0) return [c.make, v].filter(Boolean).join(" ");
+    return [c.make, c.model, v].filter(Boolean).join(" ");
+  }
   function carMeta(c) {
     return [c.year, c.mileage != null ? num(c.mileage) + " " + t("km") : null, v(c.fuel), v(c.transmission)]
       .filter(function (x) { return x != null && x !== ""; }).join(" · ");
@@ -225,18 +240,7 @@
       };
       nl.addEventListener("click", function (e) { if (e.target.tagName === "A") nl.classList.remove("open"); });
     }
-    var f = document.getElementById("site-footer");
-    if (f) {
-      f.className = "site-footer";
-      f.innerHTML =
-        '<div class="wrap foot"><span>© ' + new Date().getFullYear() + " Rakin Cars · " + esc(t("foot_tag")) + "</span>" +
-        '<div class="socials">' +
-        '<a class="social" href="https://instagram.com/' + esc(INFO.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram @' + esc(INFO.instagram) + '" title="Instagram @' + esc(INFO.instagram) + '">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>' +
-        '<a class="social" href="' + wa(t("msg_general")) + '" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">' + ICON.wa.replace('class="ico"', "") + "</a>" +
-        '<a class="social" href="' + tel() + '" aria-label="' + esc(t("call")) + " " + esc(INFO.phone) + '" title="' + esc(INFO.phone) + '">' + ICON.phone.replace('class="ico"', "") + "</a>" +
-        "</div></div>";
-    }
+    footer();
     var w = document.createElement("a");
     w.className = "wa-float";
     w.href = wa(t("msg_general"));
@@ -247,6 +251,49 @@
     document.documentElement.lang = LANG;
     // static text
     document.querySelectorAll("[data-t]").forEach(function (el) { el.textContent = t(el.getAttribute("data-t")); });
+  }
+
+  /* ---------------- footer ---------------- */
+  function mapsLink() {
+    return INFO.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Rakin Cars " + (INFO.address || "Mikocheni, Dar es Salaam"));
+  }
+  function hoursText() { return (LANG === "sw" && INFO.hoursSw) ? INFO.hoursSw : INFO.hours; }
+  function footer() {
+    var f = document.getElementById("site-footer");
+    if (!f) return;
+    f.className = "site-footer";
+    var hrs = hoursText();
+    var hoursLines = hrs ? String(hrs).split(/\n|;|\|/).map(function (x) { return "<li>" + esc(x.trim()) + "</li>"; }).join("") : "<li>" + esc(t("hours_ask")) + "</li>";
+    f.innerHTML =
+      '<div class="wrap foot-grid">' +
+        '<div class="foot-brand">' +
+          '<a href="index.html" class="foot-logo" aria-label="Rakin Cars home"><img src="' + logoFor(getTheme()) + '" alt="Rakin Cars"></a>' +
+          "<p>" + esc(t("f_tag")) + "</p>" +
+          '<div class="socials">' +
+            '<a class="social" href="https://instagram.com/' + esc(INFO.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram @' + esc(INFO.instagram) + '" title="Instagram @' + esc(INFO.instagram) + '">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>' +
+            '<a class="social" href="' + wa(t("msg_general")) + '" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">' + ICON.wa.replace('class="ico"', "") + "</a>" +
+            '<a class="social" href="' + tel() + '" aria-label="' + esc(t("call")) + " " + esc(INFO.phone) + '" title="' + esc(INFO.phone) + '">' + ICON.phone.replace('class="ico"', "") + "</a>" +
+          "</div>" +
+        "</div>" +
+        '<div class="foot-col"><h4>' + esc(t("f_explore")) + "</h4><ul>" +
+          '<li><a href="cars.html">' + esc(t("nav_cars")) + "</a></li>" +
+          '<li><a href="index.html#sell">' + esc(t("nav_sell")) + "</a></li>" +
+          '<li><a href="index.html#import">' + esc(t("nav_import")) + "</a></li>" +
+          '<li><a href="index.html#why">' + esc(t("nav_about")) + "</a></li>" +
+        "</ul></div>" +
+        '<div class="foot-col"><h4>' + esc(t("f_contact")) + "</h4><ul>" +
+          '<li><a href="' + tel() + '">' + esc(INFO.phone) + "</a></li>" +
+          '<li><a href="' + wa(t("msg_general")) + '" target="_blank" rel="noopener">WhatsApp</a></li>' +
+          '<li><a href="https://instagram.com/' + esc(INFO.instagram) + '" target="_blank" rel="noopener">@' + esc(INFO.instagram) + "</a></li>" +
+        "</ul></div>" +
+        '<div class="foot-col"><h4>' + esc(t("f_hours")) + "</h4><ul>" + hoursLines + "</ul>" +
+          '<p class="foot-addr">' + esc(INFO.address || "") + '</p><a class="foot-dir" href="' + esc(mapsLink()) + '" target="_blank" rel="noopener">' + esc(t("directions")) + " →</a>" +
+        "</div>" +
+      "</div>" +
+      '<div class="wrap foot-bottom"><span>© ' + new Date().getFullYear() + " Rakin Cars · " + esc(t("rights")) + "</span><a href=\"#top\" class=\"to-top\">↑ Top</a></div>";
+    var tt = f.querySelector(".to-top");
+    if (tt) tt.onclick = function (e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); };
   }
 
   /* ---------------- cards ---------------- */
@@ -320,12 +367,14 @@
     setHref("import-btn", wa(t("msg_import")));
     setHref("visit-wa", wa(t("msg_general")));
     setHref("why-cta", wa(t("msg_general")));
+    setHref("visit-dir", mapsLink());
+    var ad = document.getElementById("visit-addr"); if (ad && INFO.address) ad.textContent = INFO.address;
     var call = document.getElementById("visit-call");
     if (call) { call.href = tel(); call.lastChild.textContent = " " + t("call") + " " + INFO.phone; }
     var hrs = document.getElementById("hours");
     if (hrs) {
-      var hv = LANG === "sw" && INFO.hoursSw ? INFO.hoursSw : INFO.hours;
-      hrs.textContent = hv ? t("open") + " " + hv : t("hours_ask");
+      var hv = hoursText();
+      hrs.textContent = hv ? t("open") + " " + String(hv).replace(/\n|;|\|/g, " · ") : t("hours_ask");
     }
     // reviews (only shown when real reviews exist)
     var rs = document.getElementById("reviews");
@@ -361,6 +410,16 @@
     } else {
       grid.innerHTML = list.map(cardHTML).join("") + (n < 4 && !filtered ? moreCardHTML() : "");
     }
+  }
+
+  function videoHTML(vd) {
+    if (!vd) return "";
+    var inner = "";
+    if (vd.youtube) inner = '<div class="walk walk-embed"><iframe src="https://www.youtube.com/embed/' + esc(vd.youtube) + '?rel=0" title="Video" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" loading="lazy"></iframe></div>';
+    else if (vd.drive) inner = '<div class="walk walk-embed"><iframe src="https://drive.google.com/file/d/' + esc(vd.drive) + '/preview" title="Video" allow="autoplay; fullscreen" loading="lazy"></iframe></div>';
+    else if (vd.link) inner = '<a class="btn btn-ghost" href="' + esc(vd.link) + '" target="_blank" rel="noopener">▶ ' + esc(t("watch_ig")) + "</a>";
+    else if (vd.src) inner = '<div class="walk"><video controls playsinline preload="none" poster="' + esc(vd.poster || "") + '" src="' + esc(vd.src) + '"></video></div>';
+    return inner ? '<div class="detail-sec"><h2>' + esc(t("walk")) + "</h2>" + inner + "</div>" : "";
   }
 
   function pageCar() {
@@ -424,7 +483,7 @@
       (about ? '<div class="detail-sec"><h2>' + esc(t("about_car")) + '</h2><p class="about-text">' + esc(about) + "</p></div>" : "") +
       (c.condition && c.condition.length ? '<div class="detail-sec"><h2>' + esc(t("condition")) + '</h2><ul class="checks">' +
         c.condition.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" : "") +
-      (c.video ? '<div class="detail-sec"><h2>' + esc(t("walk")) + '</h2><div class="walk"><video controls playsinline preload="none" poster="' + esc(c.video.poster || "") + '" src="' + esc(c.video.src) + '"></video></div></div>' : "") +
+      videoHTML(c.video) +
       (similar.length ? '<div class="detail-sec"><h2>' + esc(t("similar")) + '</h2><div class="cards">' + similar.map(cardHTML).join("") + "</div></div>" : "") +
       '<a class="back-link" href="cars.html">' + esc(t("back")) + "</a>";
 
@@ -519,7 +578,7 @@
   }
 
   function reveals() {
-    var els = document.querySelectorAll(".sec-head, .card, .empty-note, .why-item, .why-intro > *, .why-cta, .promo, .showroom-grid > *, .chip, .detail-sec, .spec");
+    var els = document.querySelectorAll(".sec-head, .card, .empty-note, .why-item, .why-intro > *, .why-cta, .promo, .showroom-info, .showroom-photo, .foot-grid > *, .chip, .detail-sec, .spec");
     if (REDUCED || !("IntersectionObserver" in window)) { els.forEach(function (e) { e.classList.add("in"); }); return; }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -639,10 +698,31 @@
     window.addEventListener("pageshow", function () { document.body.classList.remove("leaving"); });
   }
 
+  function loading(on) {
+    ["latest", "all", "car"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (on) el.innerHTML = id === "car" ? '<div class="skel skel-car"></div>' :
+        '<div class="skel skel-card"></div><div class="skel skel-card"></div><div class="skel skel-card"></div>';
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    chrome();
-    if (document.body.getAttribute("data-page") === "home") intro(); else document.body.classList.add("ready");
     var page = document.body.getAttribute("data-page");
+    var sheetOn = !!String(window.RAKIN_SHEET || "").trim() && typeof window.RAKIN_LOAD === "function";
+    if (sheetOn) loading(true);
+    chrome();
+    if (page === "home") intro(); else document.body.classList.add("ready");
+    var load = sheetOn ? window.RAKIN_LOAD() : Promise.resolve({ source: "file" });
+    load.catch(function () { return { source: "file" }; }).then(function (d) {
+      if (d.cars && d.cars.length) CARS = d.cars;
+      if (d.info) { Object.keys(d.info).forEach(function (k) { INFO[k] = d.info[k]; }); footer(); }
+      if (d.reviews && d.reviews.length) REVIEWS = d.reviews;
+      render(page);
+    });
+  });
+
+  function render(page) {
     if (page === "home") pageHome();
     if (page === "all") pageAll();
     if (page === "car") pageCar();
@@ -653,5 +733,5 @@
         if (e.animationName === "heroIn") { el.classList.remove("hero-in"); el.style.animation = "none"; requestAnimationFrame(function () { el.style.animation = ""; }); }
       });
     });
-  });
+  }
 })();
