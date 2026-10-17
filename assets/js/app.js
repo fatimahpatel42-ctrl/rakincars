@@ -194,7 +194,7 @@
     return [c.make, c.model, v].filter(Boolean).join(" ");
   }
   function carMeta(c) {
-    return [c.year, c.mileage != null ? num(c.mileage) + " " + t("km") : null, v(c.fuel), v(c.transmission)]
+    return [c.year, c.mileage != null ? num(c.mileage) + " " + t("km") : null, v(c.fuel), v(c.transmission), c.colour]
       .filter(function (x) { return x != null && x !== ""; }).join(" · ");
   }
   function priceHTML(c, cls) {

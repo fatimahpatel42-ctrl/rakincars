@@ -80,6 +80,94 @@ window.RAKIN_CARS = [
       "Ask us for the full inspection notes and service history"
     ]
   }
+,
+  {
+    id: "toyota-land-cruiser-300-champagne",
+    name: "Toyota Land Cruiser 300",
+    ref: "RC-LC300-C",
+    status: "available",
+    featured: true,
+    make: "Toyota",
+    model: "Land Cruiser 300",
+    variant: "Land Cruiser 300",
+    body: "SUV",
+    year: null, mileage: null, fuel: null, transmission: "Automatic", engine: null, drive: "4WD",
+    colour: "Champagne beige",
+    importedFrom: null,
+    priceTZS: null, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/lc300-champagne/card.jpg",
+    photos: [
+      { src: "assets/img/cars/lc300-champagne/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/lc300-champagne/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/lc300-champagne/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/lc300-champagne/dash.jpg", label: "Dashboard" },
+      { src: "assets/img/cars/lc300-champagne/rear.jpg", label: "Rear" }
+    ],
+    video: null,
+    about: "The latest-generation Land Cruiser 300 in an elegant champagne finish. Chrome grille, LED lighting and the full-width infotainment screen, with the legendary Land Cruiser toughness underneath. Ask us for the full specification.",
+    aboutSw: "Land Cruiser 300 ya kizazi kipya, rangi ya champagne. Grili ya chrome, taa za LED na skrini pana ya kisasa, pamoja na uimara maarufu wa Land Cruiser. Tuulize kwa maelezo kamili.",
+    condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
+  },
+  {
+    id: "toyota-land-cruiser-300-white",
+    name: "Toyota Land Cruiser 300",
+    ref: "RC-LC300-W",
+    status: "available",
+    featured: true,
+    make: "Toyota",
+    model: "Land Cruiser 300",
+    variant: "Land Cruiser 300",
+    body: "SUV",
+    year: null, mileage: null, fuel: null, transmission: "Automatic", engine: null, drive: "4WD",
+    colour: "Pearl white",
+    importedFrom: null,
+    priceTZS: null, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/lc300-white/card.jpg",
+    photos: [
+      { src: "assets/img/cars/lc300-white/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/lc300-white/rear.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/lc300-white/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/lc300-white/front-seats.jpg", label: "Front seats" },
+      { src: "assets/img/cars/lc300-white/rear-seats.jpg", label: "Rear seats" },
+      { src: "assets/img/cars/lc300-white/rear-side.jpg", label: "Rear" },
+      { src: "assets/img/cars/lc300-white/engine.jpg", label: "Engine" }
+    ],
+    video: null,
+    about: "Land Cruiser 300 in pearl white with a light beige leather interior. Chrome grille, two-tone alloys and a spacious, practical cabin for the whole family. Ask us for the full specification.",
+    aboutSw: "Land Cruiser 300 rangi nyeupe ya lulu, ndani ina viti vya ngozi rangi ya krimu. Grili ya chrome na nafasi kubwa kwa familia nzima. Tuulize kwa maelezo kamili.",
+    condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
+  },
+  {
+    id: "toyota-land-cruiser-300-gr-sport",
+    name: "Toyota Land Cruiser 300 GR Sport",
+    ref: "RC-LC300-GR",
+    status: "available",
+    featured: true,
+    make: "Toyota",
+    model: "Land Cruiser 300",
+    variant: "GR Sport",
+    body: "SUV",
+    year: null, mileage: null, fuel: null, transmission: "Automatic", engine: null, drive: "4WD",
+    colour: "Black",
+    importedFrom: null,
+    priceTZS: null, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/lc300-gr-sport/card.jpg",
+    photos: [
+      { src: "assets/img/cars/lc300-gr-sport/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/lc300-gr-sport/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/lc300-gr-sport/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/lc300-gr-sport/seats.jpg", label: "Seats" },
+      { src: "assets/img/cars/lc300-gr-sport/cockpit.jpg", label: "Cockpit" },
+      { src: "assets/img/cars/lc300-gr-sport/rear.jpg", label: "Rear" }
+    ],
+    video: null,
+    about: "The sporty Land Cruiser 300 GR Sport in black: the bold TOYOTA-lettered grille, black alloys, GR badging and a dark leather interior. A head-turner that's still a true Land Cruiser off the road. Ask us for the full specification.",
+    aboutSw: "Land Cruiser 300 GR Sport rangi nyeusi: grili yenye maandishi TOYOTA, magurudumu meusi, nembo ya GR na ndani ya ngozi nyeusi. Tuulize kwa maelezo kamili.",
+    condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
+  }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
   ,{
