@@ -205,7 +205,7 @@ window.RAKIN_INFO = {
   phone: "+255 689 091 111",
   whatsapp: "255689091111",        // digits only, with country code
   instagram: "rakincars.tz",
-  address: "Mikocheni, Dar es Salaam, Tanzania",
+  address: "Mwai Kibaki Road, Mikocheni, Dar es Salaam, Tanzania",
   hours: "8:30 AM – 6:30 PM",      // e.g. "Mon–Sat · 8:30 AM – 6:30 PM"
   hoursSw: "Saa 2:30 asubuhi – Saa 12:30 jioni"
 };

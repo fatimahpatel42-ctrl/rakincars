@@ -273,7 +273,7 @@
 
   /* ---------------- footer ---------------- */
   function mapsLink() {
-    return INFO.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Rakin Cars " + (INFO.address || "Mikocheni, Dar es Salaam"));
+    return INFO.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Rakin Cars " + (INFO.address || "Mwai Kibaki Road, Mikocheni, Dar es Salaam"));
   }
   function hoursText() { return (LANG === "sw" && INFO.hoursSw) ? INFO.hoursSw : INFO.hours; }
   function footer() {
@@ -1063,6 +1063,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    if (window.RAKIN_LOCKED) return;
     var page = document.body.getAttribute("data-page");
     var sheetOn = !!String(window.RAKIN_SHEET || "").trim() && typeof window.RAKIN_LOAD === "function";
     if (sheetOn) loading(true);
