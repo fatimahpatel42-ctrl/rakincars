@@ -106,6 +106,15 @@ window.RAKIN_SHEET = "https://docs.google.com/spreadsheets/d/1tr8T_346TOCAec8eSx
     if (!photos.length && main) photos = [{ src: main, label: "" }];
     var cond = pick(r, ["Condition notes", "Condition", "Inspection notes"]);
     var id = slug(pick(r, ["ID", "Web ID"])) || slug([make, model, variant, year].filter(Boolean).join(" ")) || "car-" + n;
+    var pT = number(pick(r, ["Price (TZS)", "Price TZS", "Price"])), pU = number(pick(r, ["Price (USD)", "Price USD"]));
+    var wT = number(pick(r, ["Was price (TZS)", "Was price", "Old price (TZS)", "Old price", "Original price"]));
+    var wU = number(pick(r, ["Was price (USD)", "Old price (USD)"]));
+    var sT = number(pick(r, ["Sale price (TZS)", "Sale price TZS", "Sale price", "Discount price (TZS)", "Discount price"]));
+    var sU = number(pick(r, ["Sale price (USD)", "Sale price USD", "Discount price (USD)"]));
+    // a sale price turns the normal price into the crossed-out "was" price
+    if (sT && (!pT || sT < pT)) { if (pT) wT = pT; pT = sT; }
+    if (sU && (!pU || sU < pU)) { if (pU) wU = pU; pU = sU; }
+    if ((sT || sU) && (status === "available" || status === "arriving")) status = "sale";
     return {
       id: id,
       ref: pick(r, ["Ref", "Stock ref", "Reference"]) || id.toUpperCase(),
@@ -122,10 +131,10 @@ window.RAKIN_SHEET = "https://docs.google.com/spreadsheets/d/1tr8T_346TOCAec8eSx
       drive: pick(r, ["Drive", "Drivetrain"]) || null,
       colour: pick(r, ["Colour", "Color"]) || null,
       importedFrom: pick(r, ["Imported from", "Import from", "Origin"]) || null,
-      priceTZS: number(pick(r, ["Price (TZS)", "Price TZS", "Price"])),
-      priceUSD: number(pick(r, ["Price (USD)", "Price USD"])),
-      wasTZS: number(pick(r, ["Was price (TZS)", "Was price", "Old price (TZS)", "Old price", "Original price"])),
-      wasUSD: number(pick(r, ["Was price (USD)", "Old price (USD)"])),
+      priceTZS: pT,
+      priceUSD: pU,
+      wasTZS: wT,
+      wasUSD: wU,
       tradeIn: yes(pick(r, ["Trade-in", "Trade in", "Trade-in accepted"]), true),
       cardImage: main || (photos[0] && photos[0].src) || "",
       photos: photos,
