@@ -175,9 +175,9 @@ window.RAKIN_CARS = [
     featured: true,
     make: "Audi",
     model: "Q7",
-    variant: "Q7 quattro",
+    variant: "Q7",
     body: "SUV",
-    year: null, mileage: null, fuel: null, transmission: "Automatic", engine: null, drive: "quattro (AWD)",
+    year: 2017, mileage: null, fuel: "Petrol", transmission: "Automatic", engine: "3.0L V6", drive: "quattro (AWD)",
     colour: "Black",
     importedFrom: null,
     priceTZS: 100000000, priceUSD: null,
@@ -191,9 +191,9 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/audi-q7-black/dash.jpg", label: "Dashboard" }
     ],
     video: null,
-    about: "Audi Q7 in black with quattro all-wheel drive. LED headlights, 20-spoke alloys, black leather interior, Audi virtual cockpit, 4-zone climate control and a 360° camera. Ask us for the full specification.",
-    aboutSw: "Audi Q7 rangi nyeusi, yenye quattro (AWD). Taa za LED, magurudumu ya alloy, ndani ya ngozi nyeusi, virtual cockpit, AC ya maeneo manne na kamera ya 360°. Tuulize kwa maelezo kamili.",
-    condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
+    about: "2017 Audi Q7 in black with a 3.0L V6 petrol engine and automatic transmission. Premium specification with black leather interior, 7 seats and ambient interior lighting, in excellent condition. Come and see it at our Mikocheni showroom.",
+    aboutSw: "Audi Q7 ya 2017, rangi nyeusi, injini ya petroli V6 lita 3.0 na gia za automatic. Ina viti 7 vya ngozi nyeusi, taa za ambient ndani na vipengele vya hadhi ya juu. Iko katika hali nzuri sana. Karibu uione showroom yetu Mikocheni.",
+    condition: ["Excellent condition", "Inspected by our team before sale", "Ask us for the full inspection notes"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
