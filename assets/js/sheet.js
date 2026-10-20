@@ -99,6 +99,7 @@ window.RAKIN_SHEET = "https://docs.google.com/spreadsheets/d/1tr8T_346TOCAec8eSx
     if (/sold|imeuzwa|limeuzwa/.test(status)) status = "sold";
     else if (/reserv|hifadh/.test(status)) status = "reserved";
     else if (/arriv|coming|soon|njiani|inakuja/.test(status)) status = "arriving";
+    else if (/on sale|^sale$|offer|discount|reduced|promo|ofa|punguzo/.test(status)) status = "sale";
     else status = "available";
     var photos = photoList(pick(r, ["Gallery photos", "Photos", "Gallery"]));
     var main = photoURL(pick(r, ["Main photo", "Card photo", "Cover photo"]));
@@ -123,6 +124,7 @@ window.RAKIN_SHEET = "https://docs.google.com/spreadsheets/d/1tr8T_346TOCAec8eSx
       importedFrom: pick(r, ["Imported from", "Import from", "Origin"]) || null,
       priceTZS: number(pick(r, ["Price (TZS)", "Price TZS", "Price"])),
       priceUSD: number(pick(r, ["Price (USD)", "Price USD"])),
+      wasTZS: number(pick(r, ["Was price (TZS)", "Was price", "Old price (TZS)", "Old price", "Original price"])),
       tradeIn: yes(pick(r, ["Trade-in", "Trade in", "Trade-in accepted"]), true),
       cardImage: main || (photos[0] && photos[0].src) || "",
       photos: photos,

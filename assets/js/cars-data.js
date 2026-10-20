@@ -11,12 +11,13 @@
     name      optional display name, e.g. "Mercedes-Benz G 450d"
     id        short unique name used in the web address, e.g. "g450d-blue"  (no spaces)
     ref       your stock reference, e.g. "RC-0150" (appears in the WhatsApp message)
-    status    "available" | "reserved" | "sold" | "arriving"
+    status    "available" | "sale" (On sale) | "reserved" | "sold" | "arriving"
     make, model, variant
     body      "SUV" | "Sedan" | "Pickup" | "Hatchback" | "Coupe" | "Van"
     year, mileage (km, number), fuel, transmission, engine, drive, colour, importedFrom
     priceTZS  number, e.g. 385000000  — or null to show "Price on request"
     priceUSD  number or null (optional)
+    wasTZS    optional old price for cars "On sale", e.g. 420000000 — shown crossed out
     tradeIn   true/false — shows "Trade-in accepted"
     cardImage the photo shown on listing cards (landscape works best)
     photos    list of { src, label } — the gallery on the car page

@@ -21,7 +21,7 @@
       f_make: "Make", f_body: "Body type", f_price: "Max price (TZS)",
       any_make: "Any make", any: "Any", no_limit: "No limit", search: "Search cars",
       latest: "Latest arrivals", view_all: "View all cars →",
-      st_available: "Available", st_reserved: "Reserved", st_sold: "Sold", st_arriving: "Arriving soon",
+      st_available: "Available", st_reserved: "Reserved", st_sold: "Sold", st_arriving: "Arriving soon", st_sale: "On sale", was: "Was", save: "You save",
       por: "Price on request", km: "km",
       more_title: "More cars arriving soon",
       more_text: "Tell us what you're looking for and we'll let you know first.",
@@ -86,7 +86,7 @@
       f_make: "Aina", f_body: "Muundo", f_price: "Bei ya juu (TZS)",
       any_make: "Aina yoyote", any: "Yoyote", no_limit: "Bila kikomo", search: "Tafuta magari",
       latest: "Yaliyoingia karibuni", view_all: "Tazama magari yote →",
-      st_available: "Linapatikana", st_reserved: "Limehifadhiwa", st_sold: "Limeuzwa", st_arriving: "Linakuja karibuni",
+      st_available: "Linapatikana", st_reserved: "Limehifadhiwa", st_sold: "Limeuzwa", st_arriving: "Linakuja karibuni", st_sale: "Ofa maalum", was: "Awali", save: "Unaokoa",
       por: "Bei kwa maombi", km: "km",
       more_title: "Magari zaidi yanakuja",
       more_text: "Tuambie unatafuta gari gani na tutakujulisha kwanza.",
@@ -200,7 +200,10 @@
   function priceHTML(c, cls) {
     if (c.status === "sold") return '<div class="' + cls + '">' + esc(t("st_sold")) + "</div>";
     if (c.priceTZS == null) return '<div class="' + cls + ' por">' + esc(t("por")) + "</div>";
-    return '<div class="' + cls + '">TZS <span data-count="' + c.priceTZS + '">' + num(c.priceTZS) + "</span></div>";
+    var cut = c.status === "sale" && c.wasTZS != null && c.wasTZS > c.priceTZS;
+    return (cut ? '<div class="was-price">' + esc(t("was")) + " <s>TZS " + num(c.wasTZS) + "</s></div>" : "") +
+      '<div class="' + cls + (c.status === "sale" ? " on-sale" : "") + '">TZS <span data-count="' + c.priceTZS + '">' + num(c.priceTZS) + "</span></div>" +
+      (cut && cls === "price" ? '<div class="save-note">' + esc(t("save")) + " TZS " + num(c.wasTZS - c.priceTZS) + "</div>" : "");
   }
   function badge(c) {
     var s = c.status || "available";
@@ -208,7 +211,7 @@
   }
   function param(k) { return new URLSearchParams(location.search).get(k); }
   function sortCars(list) {
-    var order = { available: 0, arriving: 1, reserved: 2, sold: 3 };
+    var order = { sale: 0, available: 0, arriving: 1, reserved: 2, sold: 3 };
     return list.slice().sort(function (a, b) {
       if (!!b.featured - !!a.featured) return !!b.featured - !!a.featured;
       return (order[a.status] || 0) - (order[b.status] || 0);
@@ -448,7 +451,7 @@
       });
     }
     function sorter(mode) {
-      var rank = { available: 0, arriving: 1, reserved: 2, sold: 3 };
+      var rank = { sale: 0, available: 0, arriving: 1, reserved: 2, sold: 3 };
       var base = function (a, b) { return (rank[a.status] || 0) - (rank[b.status] || 0); };
       var nul = function (v, big) { return v == null ? (big ? Infinity : -Infinity) : v; };
       return function (a, b) {

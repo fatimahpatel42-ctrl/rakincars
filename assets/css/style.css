@@ -1210,3 +1210,20 @@ body[data-page="all"] .filters { grid-template-columns: repeat(3, 1fr); }
   color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
 }
 .no-photo img { width: 46%; max-width: 180px; height: auto; opacity: .85; transform: none !important; }
+
+/* ---- On sale ---- */
+.badge-sale { background: var(--red); overflow: hidden; }
+.badge-sale::after { content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%) -120% 0 / 220% 100% no-repeat;
+  animation: saleShine 3.2s 1s ease-in-out infinite; }
+@keyframes saleShine { 0% { background-position: -120% 0; } 50%, 100% { background-position: 220% 0; } }
+.card-price.on-sale, .buy-box .price.on-sale { color: var(--red); }
+.card-price.on-sale { padding-top: 2px; }
+.was-price { color: var(--muted); font-size: 14px; margin-top: auto; padding-top: 10px; }
+.buy-box .was-price { margin-top: 22px; padding-top: 0; font-size: 16px; }
+.buy-box .was-price + .price { margin-top: 2px; }
+.was-price s { text-decoration-thickness: 1.5px; text-decoration-color: var(--red); }
+.save-note { display: inline-block; margin-top: 8px; padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  color: #fff; background: rgba(225, 37, 27, .9); }
+.status-pill .badge-sale { position: relative; }
+.was-price + .card-price { margin-top: 0; }
