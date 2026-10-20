@@ -166,6 +166,34 @@ window.RAKIN_CARS = [
     about: "The sporty Land Cruiser 300 GR Sport in black: the bold TOYOTA-lettered grille, black alloys, GR badging and a dark leather interior. A head-turner that's still a true Land Cruiser off the road. Ask us for the full specification.",
     aboutSw: "Land Cruiser 300 GR Sport rangi nyeusi: grili yenye maandishi TOYOTA, magurudumu meusi, nembo ya GR na ndani ya ngozi nyeusi. Tuulize kwa maelezo kamili.",
     condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
+  },
+  {
+    id: "audi-q7-black",
+    name: "Audi Q7",
+    ref: "RC-Q7-BLK",
+    status: "available",
+    featured: true,
+    make: "Audi",
+    model: "Q7",
+    variant: "Q7 quattro",
+    body: "SUV",
+    year: null, mileage: null, fuel: null, transmission: "Automatic", engine: null, drive: "quattro (AWD)",
+    colour: "Black",
+    importedFrom: null,
+    priceTZS: 100000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/audi-q7-black/card.jpg",
+    photos: [
+      { src: "assets/img/cars/audi-q7-black/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/audi-q7-black/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/audi-q7-black/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/audi-q7-black/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/audi-q7-black/dash.jpg", label: "Dashboard" }
+    ],
+    video: null,
+    about: "Audi Q7 in black with quattro all-wheel drive. LED headlights, 20-spoke alloys, black leather interior, Audi virtual cockpit, 4-zone climate control and a 360° camera. Ask us for the full specification.",
+    aboutSw: "Audi Q7 rangi nyeusi, yenye quattro (AWD). Taa za LED, magurudumu ya alloy, ndani ya ngozi nyeusi, virtual cockpit, AC ya maeneo manne na kamera ya 360°. Tuulize kwa maelezo kamili.",
+    condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
