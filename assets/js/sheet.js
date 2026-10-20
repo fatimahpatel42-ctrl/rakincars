@@ -125,6 +125,7 @@ window.RAKIN_SHEET = "https://docs.google.com/spreadsheets/d/1tr8T_346TOCAec8eSx
       priceTZS: number(pick(r, ["Price (TZS)", "Price TZS", "Price"])),
       priceUSD: number(pick(r, ["Price (USD)", "Price USD"])),
       wasTZS: number(pick(r, ["Was price (TZS)", "Was price", "Old price (TZS)", "Old price", "Original price"])),
+      wasUSD: number(pick(r, ["Was price (USD)", "Old price (USD)"])),
       tradeIn: yes(pick(r, ["Trade-in", "Trade in", "Trade-in accepted"]), true),
       cardImage: main || (photos[0] && photos[0].src) || "",
       photos: photos,

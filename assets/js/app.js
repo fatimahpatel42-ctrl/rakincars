@@ -199,6 +199,12 @@
   }
   function priceHTML(c, cls) {
     if (c.status === "sold") return '<div class="' + cls + '">' + esc(t("st_sold")) + "</div>";
+    if (c.priceTZS == null && c.priceUSD != null) {
+      var cutU = c.status === "sale" && c.wasUSD != null && c.wasUSD > c.priceUSD;
+      return (cutU ? '<div class="was-price">' + esc(t("was")) + " <s>USD " + num(c.wasUSD) + "</s></div>" : "") +
+        '<div class="' + cls + (c.status === "sale" ? " on-sale" : "") + '">USD <span data-count="' + c.priceUSD + '">' + num(c.priceUSD) + "</span></div>" +
+        (cutU && cls === "price" ? '<div class="save-note">' + esc(t("save")) + " USD " + num(c.wasUSD - c.priceUSD) + "</div>" : "");
+    }
     if (c.priceTZS == null) return '<div class="' + cls + ' por">' + esc(t("por")) + "</div>";
     var cut = c.status === "sale" && c.wasTZS != null && c.wasTZS > c.priceTZS;
     return (cut ? '<div class="was-price">' + esc(t("was")) + " <s>TZS " + num(c.wasTZS) + "</s></div>" : "") +
@@ -613,7 +619,7 @@
       "<h1>" + esc(c.variant || c.model) + "</h1>" +
       (sub ? '<div class="sub">' + esc(sub) + "</div>" : "") +
       priceHTML(c, "price") +
-      '<div class="price-note">' + [c.priceUSD ? "≈ USD " + num(c.priceUSD) : null, c.tradeIn ? t("trade_ok") : null].filter(Boolean).map(esc).join(" · ") + "</div>" +
+      '<div class="price-note">' + [c.priceUSD && c.priceTZS != null ? "≈ USD " + num(c.priceUSD) : null, c.tradeIn ? t("trade_ok") : null].filter(Boolean).map(esc).join(" · ") + "</div>" +
       '<div class="buy-actions">' +
       '<a class="btn btn-wa btn-block" target="_blank" rel="noopener" href="' + wa(msg) + '">' + ICON.wa + esc(t("ask_wa")) + "</a>" +
       '<a class="btn btn-ghost btn-block" href="' + tel() + '">' + ICON.phone + esc(t("call_show")) + "</a>" +
