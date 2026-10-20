@@ -193,7 +193,36 @@ window.RAKIN_CARS = [
     video: null,
     about: "2017 Audi Q7 in black with a 3.0L V6 petrol engine and automatic transmission. Premium specification with black leather interior, 7 seats and ambient interior lighting, in excellent condition. Come and see it at our Mikocheni showroom.",
     aboutSw: "Audi Q7 ya 2017, rangi nyeusi, injini ya petroli V6 lita 3.0 na gia za automatic. Ina viti 7 vya ngozi nyeusi, taa za ambient ndani na vipengele vya hadhi ya juu. Iko katika hali nzuri sana. Karibu uione showroom yetu Mikocheni.",
-    condition: ["Excellent condition", "Inspected by our team before sale", "Ask us for the full inspection notes"]
+    condition: ["3.0L V6 Petrol Engine", "Automatic Transmission", "Black Exterior", "Black Leather Interior", "7 Seats", "Ambient Interior Lighting", "Premium Specification", "Excellent Condition"]
+  },
+  {
+    id: "mercedes-s400-white",
+    name: "Mercedes-Benz S400 L",
+    ref: "RC-S400L-W",
+    status: "available",
+    featured: true,
+    make: "Mercedes-Benz",
+    model: "S-Class",
+    variant: "S400 L",
+    body: "Sedan",
+    year: 2016, mileage: null, fuel: "Petrol", transmission: "Automatic", engine: null, drive: null,
+    colour: "White",
+    importedFrom: null,
+    priceTZS: 80000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/mercedes-s400-white/card.jpg",
+    photos: [
+      { src: "assets/img/cars/mercedes-s400-white/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/mercedes-s400-white/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/mercedes-s400-white/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/mercedes-s400-white/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/mercedes-s400-white/dash.jpg", label: "Dashboard" },
+      { src: "assets/img/cars/mercedes-s400-white/rear-seats.jpg", label: "Rear seats" }
+    ],
+    video: null,
+    about: "2016 Mercedes-Benz S400 L in white, the long-wheelbase S-Class. Petrol engine with automatic transmission, black luxury leather seats for 5 and ambient interior lighting, in excellent condition. Come and see it at our Mikocheni showroom.",
+    aboutSw: "Mercedes-Benz S400 L ya 2016, rangi nyeupe, S-Class ndefu. Injini ya petroli na gia za automatic, viti 5 vya ngozi nyeusi vya kifahari na taa za ambient ndani. Iko katika hali nzuri sana. Karibu uione showroom yetu Mikocheni.",
+    condition: ["Year: 2016", "Engine: Petrol", "Exterior Color: White", "Interior: Black Leather", "Seating Capacity: 5", "Luxury Leather Seats", "Ambient Interior Lighting", "Automatic Transmission", "Excellent Condition"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
