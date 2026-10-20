@@ -215,7 +215,6 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/mercedes-s400-white/front.jpg", label: "Front 3/4" },
       { src: "assets/img/cars/mercedes-s400-white/front-side.jpg", label: "Front" },
       { src: "assets/img/cars/mercedes-s400-white/rear-side.jpg", label: "Rear 3/4" },
-      { src: "assets/img/cars/mercedes-s400-white/rear.jpg", label: "Rear" },
       { src: "assets/img/cars/mercedes-s400-white/dash.jpg", label: "Dashboard" },
       { src: "assets/img/cars/mercedes-s400-white/rear-seats.jpg", label: "Rear seats" }
     ],
