@@ -53,7 +53,10 @@ window.RAKIN_SHEET = "https://docs.google.com/spreadsheets/d/1tr8T_346TOCAec8eSx
     return ["yes", "y", "true", "1", "ndiyo", "ndio", "x", "✓"].indexOf(v) >= 0;
   }
   function number(v) {
-    v = String(v || "").replace(/[^0-9.]/g, "");
+    v = String(v || "").trim();
+    var sci = v.replace(/,/g, "").match(/^(\d+(?:\.\d+)?)e\+?(\d+)$/i);
+    if (sci) { var ns = Number(sci[1]) * Math.pow(10, Number(sci[2])); return isFinite(ns) && ns > 0 ? Math.round(ns) : null; }
+    v = v.replace(/\.\d{1,2}$/, "").replace(/[^0-9.]/g, "");
     if (!v) return null;
     var n = Number(v);
     return isFinite(n) && n > 0 ? n : null;

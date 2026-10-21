@@ -233,10 +233,10 @@ window.RAKIN_CARS = [
     model: "Land Cruiser 200",
     variant: "ZX V8",
     body: "SUV",
-    year: null, mileage: null, fuel: null, transmission: "Automatic", engine: "V8", drive: "4WD",
-    colour: "Pearl white",
+    year: 2017, mileage: null, fuel: "Petrol", transmission: "Automatic", engine: "4.6L V8 (1UR)", drive: "4WD",
+    colour: "White",
     importedFrom: null,
-    priceTZS: null, priceUSD: null,
+    priceTZS: 200000000, priceUSD: null,
     tradeIn: true,
     cardImage: "assets/img/cars/lc200-zx-white/card.jpg",
     photos: [
@@ -248,9 +248,38 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/lc200-zx-white/rear-seats.jpg", label: "Rear seats" }
     ],
     video: null,
-    about: "Toyota Land Cruiser 200 ZX V8 in pearl white, the top-of-the-range trim. Sunroof, chrome grille, LED fog lights, side steps, black leather interior with wood trim and the multi-terrain select controls. Ask us for the full specification.",
-    aboutSw: "Toyota Land Cruiser 200 ZX V8 rangi nyeupe ya lulu, toleo la juu kabisa. Ina sunroof, grili ya chrome, taa za ukungu za LED, ngazi za pembeni na ndani ya ngozi nyeusi yenye mapambo ya mbao. Tuulize kwa maelezo kamili.",
-    condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
+    about: "2017 Toyota Land Cruiser 200 ZX in white with the 4.6L V8 petrol engine (1UR) and automatic transmission. Black leather interior with 7 seats, sunroof, chrome grille, LED fog lights and side steps, in excellent condition. Come and see it at our Mikocheni showroom.",
+    aboutSw: "Toyota Land Cruiser 200 ZX ya 2017, rangi nyeupe, injini ya petroli V8 lita 4.6 (1UR) na gia za automatic. Ndani ya ngozi nyeusi yenye viti 7, sunroof, grili ya chrome na taa za ukungu za LED. Iko katika hali nzuri sana. Karibu uione showroom yetu Mikocheni.",
+    condition: ["Year: 2017", "Engine: 4.6L Petrol (1UR)", "Exterior Color: White", "Interior: Black Leather", "Seating Capacity: 7", "Sunroof", "Automatic Transmission", "Excellent Condition"]
+  },
+  {
+    id: "toyota-vellfire-2010-white",
+    name: "Toyota Vellfire",
+    ref: "RC-VELL-W",
+    status: "available",
+    featured: true,
+    make: "Toyota",
+    model: "Vellfire",
+    variant: "Vellfire",
+    body: "Van",
+    year: 2010, mileage: null, fuel: "Petrol", transmission: "Automatic", engine: "2.4L (2AZ)", drive: null,
+    colour: "White",
+    importedFrom: null,
+    priceTZS: 27000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/vellfire-2010-white/card.jpg",
+    photos: [
+      { src: "assets/img/cars/vellfire-2010-white/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/vellfire-2010-white/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/vellfire-2010-white/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/vellfire-2010-white/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/vellfire-2010-white/dash.jpg", label: "Dashboard" },
+      { src: "assets/img/cars/vellfire-2010-white/captain-seats.jpg", label: "Captain seats" }
+    ],
+    video: null,
+    about: "2010 Toyota Vellfire in white with a 2.4L petrol engine (2AZ) and automatic transmission. Luxury captain seats with ottoman footrests, wood-trim dashboard and a premium, spacious interior for the whole family, in excellent condition. Come and see it at our Mikocheni showroom.",
+    aboutSw: "Toyota Vellfire ya 2010, rangi nyeupe, injini ya petroli lita 2.4 (2AZ) na gia za automatic. Ina viti vya kifahari vya captain, dashibodi yenye mapambo ya mbao na nafasi kubwa kwa familia nzima. Iko katika hali nzuri sana. Karibu uione showroom yetu Mikocheni.",
+    condition: ["2.4L Petrol (2AZ) Engine", "Automatic Transmission", "White Exterior", "Luxury Captain Seats", "Premium Interior", "Excellent Condition"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
