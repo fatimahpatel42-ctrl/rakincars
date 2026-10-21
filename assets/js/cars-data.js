@@ -222,6 +222,35 @@ window.RAKIN_CARS = [
     about: "2016 Mercedes-Benz S400 L in white, the long-wheelbase S-Class. Petrol engine with automatic transmission, black luxury leather seats for 5 and ambient interior lighting, in excellent condition. Come and see it at our Mikocheni showroom.",
     aboutSw: "Mercedes-Benz S400 L ya 2016, rangi nyeupe, S-Class ndefu. Injini ya petroli na gia za automatic, viti 5 vya ngozi nyeusi vya kifahari na taa za ambient ndani. Iko katika hali nzuri sana. Karibu uione showroom yetu Mikocheni.",
     condition: ["Year: 2016", "Engine: Petrol", "Exterior Color: White", "Interior: Black Leather", "Seating Capacity: 5", "Luxury Leather Seats", "Ambient Interior Lighting", "Automatic Transmission", "Excellent Condition"]
+  },
+  {
+    id: "toyota-land-cruiser-200-zx-white",
+    name: "Toyota Land Cruiser 200 ZX",
+    ref: "RC-LC200-ZX",
+    status: "available",
+    featured: true,
+    make: "Toyota",
+    model: "Land Cruiser 200",
+    variant: "ZX V8",
+    body: "SUV",
+    year: null, mileage: null, fuel: null, transmission: "Automatic", engine: "V8", drive: "4WD",
+    colour: "Pearl white",
+    importedFrom: null,
+    priceTZS: null, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/lc200-zx-white/card.jpg",
+    photos: [
+      { src: "assets/img/cars/lc200-zx-white/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/lc200-zx-white/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/lc200-zx-white/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/lc200-zx-white/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/lc200-zx-white/dash.jpg", label: "Dashboard" },
+      { src: "assets/img/cars/lc200-zx-white/rear-seats.jpg", label: "Rear seats" }
+    ],
+    video: null,
+    about: "Toyota Land Cruiser 200 ZX V8 in pearl white, the top-of-the-range trim. Sunroof, chrome grille, LED fog lights, side steps, black leather interior with wood trim and the multi-terrain select controls. Ask us for the full specification.",
+    aboutSw: "Toyota Land Cruiser 200 ZX V8 rangi nyeupe ya lulu, toleo la juu kabisa. Ina sunroof, grili ya chrome, taa za ukungu za LED, ngazi za pembeni na ndani ya ngozi nyeusi yenye mapambo ya mbao. Tuulize kwa maelezo kamili.",
+    condition: ["Inspected by our team before sale", "Ask us for the full inspection notes"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
