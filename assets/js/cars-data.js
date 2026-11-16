@@ -280,6 +280,35 @@ window.RAKIN_CARS = [
     about: "2010 Toyota Vellfire in white with a 2.4L petrol engine (2AZ) and automatic transmission. Luxury captain seats with ottoman footrests, wood-trim dashboard and a premium, spacious interior for the whole family, in excellent condition. Come and see it at our Mikocheni showroom.",
     aboutSw: "Toyota Vellfire ya 2010, rangi nyeupe, injini ya petroli lita 2.4 (2AZ) na gia za automatic. Ina viti vya kifahari vya captain, dashibodi yenye mapambo ya mbao na nafasi kubwa kwa familia nzima. Iko katika hali nzuri sana. Karibu uione showroom yetu Mikocheni.",
     condition: ["2.4L Petrol (2AZ) Engine", "Automatic Transmission", "White Exterior", "Luxury Captain Seats", "Premium Interior", "Excellent Condition"]
+  },
+  {
+    id: "toyota-land-cruiser-300-zx-2023-white",
+    name: "Toyota Land Cruiser 300 ZX",
+    ref: "RC-LC300-ZX23",
+    status: "available",
+    featured: true,
+    make: "Toyota",
+    model: "Land Cruiser 300",
+    variant: "ZX",
+    body: "SUV",
+    year: 2023, mileage: null, fuel: "Petrol", transmission: "Automatic", engine: "3.5L V6 Twin-Turbo", drive: "4WD",
+    colour: "White",
+    importedFrom: null,
+    priceTZS: 288000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/lc300-zx-2023-white/card.jpg",
+    photos: [
+      { src: "assets/img/cars/lc300-zx-2023-white/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/lc300-zx-2023-white/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/lc300-zx-2023-white/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/lc300-zx-2023-white/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/lc300-zx-2023-white/dash.jpg", label: "Dashboard" },
+      { src: "assets/img/cars/lc300-zx-2023-white/rear-seats.jpg", label: "Rear seats" }
+    ],
+    video: null,
+    about: "2023 Toyota Land Cruiser 300 ZX in white with the 3.5L V6 twin-turbo petrol engine, automatic transmission and 4WD. Beige leather interior with 7 seats, electric sunroof, JBL premium sound, electric adjustable seats, LED headlights, parking sensors and reverse camera. Price is plus registration. Ask us for more pictures.",
+    aboutSw: "Toyota Land Cruiser 300 ZX ya 2023, rangi nyeupe, injini ya petroli V6 twin-turbo lita 3.5, gia za automatic na 4WD. Ndani ya ngozi rangi ya krimu yenye viti 7, sunroof ya umeme, sauti ya JBL, viti vya umeme, taa za LED, sensa za maegesho na kamera ya nyuma. Bei haijumuishi usajili. Tuulize kwa picha zaidi.",
+    condition: ["3.5L V6 Twin-Turbo Petrol Engine", "Automatic Transmission", "4WD – Four Wheel Drive", "White Exterior", "Beige Leather Interior", "7 Seats", "Electric Sunroof", "JBL Premium Sound System", "Electric Adjustable Seats", "LED Headlights", "Alloy Wheels", "Front & Rear Parking Sensors", "Reverse Camera", "Premium ZX Specification"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
