@@ -309,6 +309,35 @@ window.RAKIN_CARS = [
     about: "2023 Toyota Land Cruiser 300 ZX in white with the 3.5L V6 twin-turbo petrol engine, automatic transmission and 4WD. Beige leather interior with 7 seats, electric sunroof, JBL premium sound, electric adjustable seats, LED headlights, parking sensors and reverse camera. Price is plus registration. Ask us for more pictures.",
     aboutSw: "Toyota Land Cruiser 300 ZX ya 2023, rangi nyeupe, injini ya petroli V6 twin-turbo lita 3.5, gia za automatic na 4WD. Ndani ya ngozi rangi ya krimu yenye viti 7, sunroof ya umeme, sauti ya JBL, viti vya umeme, taa za LED, sensa za maegesho na kamera ya nyuma. Bei haijumuishi usajili. Tuulize kwa picha zaidi.",
     condition: ["3.5L V6 Twin-Turbo Petrol Engine", "Automatic Transmission", "4WD – Four Wheel Drive", "White Exterior", "Beige Leather Interior", "7 Seats", "Electric Sunroof", "JBL Premium Sound System", "Electric Adjustable Seats", "LED Headlights", "Alloy Wheels", "Front & Rear Parking Sensors", "Reverse Camera", "Premium ZX Specification"]
+  },
+  {
+    id: "range-rover-vogue-lwb-sdv8-black",
+    name: "Range Rover Vogue LWB SDV8",
+    ref: "RC-RRV-LWB",
+    status: "available",
+    featured: true,
+    make: "Land Rover",
+    model: "Range Rover",
+    variant: "Vogue LWB SDV8",
+    body: "SUV",
+    year: null, mileage: null, fuel: "Diesel", transmission: "Automatic", engine: "4.4L V8 Twin-Turbo (SDV8)", drive: "4WD",
+    colour: "Metallic black",
+    importedFrom: null,
+    priceTZS: 90000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/range-rover-vogue-lwb-black/card.jpg",
+    photos: [
+      { src: "assets/img/cars/range-rover-vogue-lwb-black/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/range-rover-vogue-lwb-black/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/range-rover-vogue-lwb-black/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/range-rover-vogue-lwb-black/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/range-rover-vogue-lwb-black/dash.jpg", label: "Dashboard" },
+      { src: "assets/img/cars/range-rover-vogue-lwb-black/rear-seats.jpg", label: "Rear seats" }
+    ],
+    video: null,
+    about: "Range Rover Vogue Long Wheelbase SDV8 in metallic black, with the 4.4L V8 twin-turbo diesel, automatic transmission, 4WD and air suspension. A luxury 5-seater with premium leather, panoramic sunroof and generous executive rear legroom. Registered (DUK). Come and see it at our Mikocheni showroom.",
+    aboutSw: "Range Rover Vogue Long Wheelbase SDV8 rangi nyeusi ya metali, injini ya dizeli V8 twin-turbo lita 4.4, gia za automatic, 4WD na air suspension. Viti 5 vya ngozi ya kifahari, sunroof kubwa na nafasi ya ziada nyuma. Imesajiliwa (DUK). Karibu uione showroom yetu Mikocheni.",
+    condition: ["4.4L V8 Twin-Turbo Diesel Engine", "Automatic Transmission", "4WD – Four Wheel Drive", "Long Wheelbase (LWB)", "Metallic Black Exterior", "Luxury 5-Seater SUV", "Premium Leather Interior", "Panoramic Sunroof", "Air Suspension", "LED Daytime Running Lights", "Premium Alloy Wheels", "Front & Rear Parking Sensors", "Luxury Executive Comfort", "Registration: DUK"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
