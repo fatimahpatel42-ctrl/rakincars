@@ -337,6 +337,34 @@ window.RAKIN_CARS = [
     about: "Range Rover Vogue Long Wheelbase SDV8 in metallic black, with the 4.4L V8 twin-turbo diesel, automatic transmission, 4WD and air suspension. A luxury 5-seater with premium leather, panoramic sunroof and generous executive rear legroom. Registered (DUK). Come and see it at our Mikocheni showroom.",
     aboutSw: "Range Rover Vogue Long Wheelbase SDV8 rangi nyeusi ya metali, injini ya dizeli V8 twin-turbo lita 4.4, gia za automatic, 4WD na air suspension. Viti 5 vya ngozi ya kifahari, sunroof kubwa na nafasi ya ziada nyuma. Imesajiliwa (DUK). Karibu uione showroom yetu Mikocheni.",
     condition: ["4.4L V8 Twin-Turbo Diesel Engine", "Automatic Transmission", "4WD – Four Wheel Drive", "Long Wheelbase (LWB)", "Metallic Black Exterior", "Luxury 5-Seater SUV", "Premium Leather Interior", "Panoramic Sunroof", "Air Suspension", "LED Daytime Running Lights", "Premium Alloy Wheels", "Front & Rear Parking Sensors", "Luxury Executive Comfort", "Registration: DUK"]
+  },
+  {
+    id: "toyota-harrier-z-2021-black",
+    name: "Toyota Harrier Z Package",
+    ref: "RC-HARR-Z21",
+    status: "available",
+    featured: true,
+    make: "Toyota",
+    model: "Harrier",
+    variant: "Z Package",
+    body: "SUV",
+    year: 2021, mileage: null, fuel: "Petrol", transmission: "Automatic", engine: "2.0L", drive: null,
+    colour: "Black",
+    importedFrom: null,
+    priceTZS: 80000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/harrier-2021-black/card.jpg",
+    photos: [
+      { src: "assets/img/cars/harrier-2021-black/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/harrier-2021-black/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/harrier-2021-black/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/harrier-2021-black/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/harrier-2021-black/dash.jpg", label: "Dashboard" }
+    ],
+    video: null,
+    about: "2021 Toyota Harrier Z Package in black with a 2.0L petrol engine and automatic transmission. A 5-seater luxury SUV with premium leather seats, JBL premium sound, LED headlights and daytime running lights, alloy wheels and premium interior finishing, in excellent condition. Price is plus registration. Ask us for more pictures.",
+    aboutSw: "Toyota Harrier Z Package ya 2021, rangi nyeusi, injini ya petroli lita 2.0 na gia za automatic. SUV ya kifahari ya viti 5 yenye viti vya ngozi, sauti ya JBL, taa za LED, magurudumu ya alloy na ndani ya hadhi ya juu. Iko katika hali nzuri sana. Bei haijumuishi usajili. Tuulize kwa picha zaidi.",
+    condition: ["2.0L Petrol Engine", "Automatic Transmission", "Black Exterior", "Premium Leather Seats", "JBL Premium Sound System", "5 Seater Luxury SUV", "LED Headlights & Daytime Running Lights", "Alloy Wheels", "Multifunction Steering Wheel", "Premium Interior Finishing", "Excellent Condition"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
