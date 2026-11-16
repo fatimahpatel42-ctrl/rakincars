@@ -240,13 +240,13 @@
       h.className = "site-header";
       h.innerHTML =
         '<div class="wrap nav">' +
-        '<a class="nav-logo" href="index.html" aria-label="Rakin Cars home"><span class="logo-shine"><img src="' + logoFor(getTheme()) + '" alt="Rakin Cars" width="96" height="40"></span></a>' +
+        '<a class="nav-logo" href="./" aria-label="Rakin Cars home"><span class="logo-shine"><img src="' + logoFor(getTheme()) + '" alt="Rakin Cars" width="96" height="40"></span></a>' +
         '<nav class="nav-links" id="nav-links">' +
-        '<a href="cars.html">' + esc(t("nav_cars")) + "</a>" +
-        '<a href="index.html#sell">' + esc(t("nav_sell")) + "</a>" +
-        '<a href="index.html#import">' + esc(t("nav_import")) + "</a>" +
-        '<a href="index.html#why">' + esc(t("nav_about")) + "</a>" +
-        '<a href="index.html#visit">' + esc(t("nav_contact")) + "</a>" +
+        '<a href="cars">' + esc(t("nav_cars")) + "</a>" +
+        '<a href="./#sell">' + esc(t("nav_sell")) + "</a>" +
+        '<a href="./#import">' + esc(t("nav_import")) + "</a>" +
+        '<a href="./#why">' + esc(t("nav_about")) + "</a>" +
+        '<a href="./#visit">' + esc(t("nav_contact")) + "</a>" +
         '<button class="lang-btn" id="lang-btn" type="button">' + esc(t("lang_btn")) + "</button>" +
         "</nav>" +
         '<div class="nav-tools">' +
@@ -294,7 +294,7 @@
     f.innerHTML =
       '<div class="wrap foot-grid">' +
         '<div class="foot-brand">' +
-          '<a href="index.html" class="foot-logo" aria-label="Rakin Cars home"><img src="' + logoFor(getTheme()) + '" alt="Rakin Cars"></a>' +
+          '<a href="./" class="foot-logo" aria-label="Rakin Cars home"><img src="' + logoFor(getTheme()) + '" alt="Rakin Cars"></a>' +
           "<p>" + esc(t("f_tag")) + "</p>" +
           '<div class="socials">' +
             '<a class="social" href="https://instagram.com/' + esc(INFO.instagram) + '" target="_blank" rel="noopener" aria-label="Instagram @' + esc(INFO.instagram) + '" title="Instagram @' + esc(INFO.instagram) + '">' +
@@ -304,10 +304,10 @@
           "</div>" +
         "</div>" +
         '<div class="foot-col"><h4>' + esc(t("f_explore")) + "</h4><ul>" +
-          '<li><a href="cars.html">' + esc(t("nav_cars")) + "</a></li>" +
-          '<li><a href="index.html#sell">' + esc(t("nav_sell")) + "</a></li>" +
-          '<li><a href="index.html#import">' + esc(t("nav_import")) + "</a></li>" +
-          '<li><a href="index.html#why">' + esc(t("nav_about")) + "</a></li>" +
+          '<li><a href="cars">' + esc(t("nav_cars")) + "</a></li>" +
+          '<li><a href="./#sell">' + esc(t("nav_sell")) + "</a></li>" +
+          '<li><a href="./#import">' + esc(t("nav_import")) + "</a></li>" +
+          '<li><a href="./#why">' + esc(t("nav_about")) + "</a></li>" +
         "</ul></div>" +
         '<div class="foot-col"><h4>' + esc(t("f_contact")) + "</h4><ul>" +
           '<li><a href="' + tel() + '">' + esc(INFO.phone) + "</a></li>" +
@@ -334,7 +334,7 @@
   /* ---------------- cards ---------------- */
   function cardHTML(c) {
     return (
-      '<a class="card' + (c.status === "sold" ? " is-sold" : "") + '" href="car.html?id=' + encodeURIComponent(c.id) + '">' +
+      '<a class="card' + (c.status === "sold" ? " is-sold" : "") + '" href="car?id=' + encodeURIComponent(c.id) + '">' +
       '<div class="card-img">' + ((c.cardImage || (c.photos && c.photos[0] && c.photos[0].src)) ? '<img src="' + esc(c.cardImage || c.photos[0].src) + '" alt="' + esc(carName(c)) + '" loading="lazy" onerror="this.onerror=null;this.outerHTML=window.__noPhoto">' : noPhoto()) + badge(c) +
       (c.featured && c.status === "available" ? '<span class="ribbon">' + esc(t("just_arrived")) + "</span>" : "") +
       (c.status === "sold" ? '<span class="sold-stamp">' + esc(t("st_sold")) + "</span>" : "") + "</div>" +
@@ -375,7 +375,7 @@
   }
   function chipsHTML(active) {
     return BRANDS.map(function (b) {
-      return '<a class="chip' + (active === b ? " on" : "") + '" href="cars.html?make=' + encodeURIComponent(b) + '">' + esc(b) + "</a>";
+      return '<a class="chip' + (active === b ? " on" : "") + '" href="cars?make=' + encodeURIComponent(b) + '">' + esc(b) + "</a>";
     }).join("");
   }
 
@@ -399,7 +399,7 @@
     var f = sortCars(CARS)[0], tag = document.getElementById("hero-tag");
     if (f && tag) {
       tag.innerHTML = "<div><strong>" + esc(carName(f)) + "</strong><span>" + esc(t("st_" + (f.status || "available"))) + "</span></div>" +
-        '<a class="btn btn-red" style="padding:10px 16px" href="car.html?id=' + encodeURIComponent(f.id) + '">→</a>';
+        '<a class="btn btn-red" style="padding:10px 16px" href="car?id=' + encodeURIComponent(f.id) + '">→</a>';
     }
     // CTAs
     setHref("cta-wa", wa(t("msg_general")));
@@ -499,7 +499,7 @@
       }).sort(sorter(st.sort));
       var n = current.length, filtered = st.make || st.body || st.max || st.q || st.hideSold;
       document.getElementById("count").innerHTML = n + " " + esc(n === 1 ? t("results_one") : t("results_many")) + " " + esc(t("results_found")) +
-        (filtered ? ' · <a class="link-red" href="cars.html" id="clear-all">' + esc(t("clear")) + "</a>" : "");
+        (filtered ? ' · <a class="link-red" href="cars" id="clear-all">' + esc(t("clear")) + "</a>" : "");
       document.querySelector(".tb-search").classList.toggle("has-q", !!st.q);
       if (!n) {
         grid.innerHTML = '<div class="empty-note" style="grid-column:1/-1"><strong>' + esc(t("none_found")) + "</strong>" +
@@ -579,7 +579,7 @@
     var root = document.getElementById("car");
     if (!c) {
       root.innerHTML = '<div class="not-found"><h1>' + esc(t("nf_t")) + '</h1><p class="card-meta">' + esc(t("nf_p")) +
-        '</p><p style="margin-top:22px"><a class="btn btn-red" href="cars.html">' + esc(t("browse")) + "</a></p></div>";
+        '</p><p style="margin-top:22px"><a class="btn btn-red" href="cars">' + esc(t("browse")) + "</a></p></div>";
       return;
     }
     var name = carName(c);
@@ -599,7 +599,7 @@
       .filter(Boolean).join(" · ");
 
     root.innerHTML =
-      '<div class="crumbs"><a href="cars.html">' + esc(t("nav_cars")) + "</a> / " + esc(c.make) + " / " + esc(c.variant || c.model) + "</div>" +
+      '<div class="crumbs"><a href="cars">' + esc(t("nav_cars")) + "</a> / " + esc(c.make) + " / " + esc(c.variant || c.model) + "</div>" +
       '<div class="detail-grid">' +
       "<div>" +
       '<div class="gallery-main" id="gmain"><img id="gimg" src="' + esc(photos[0].src) + '" alt="' + esc(name) + '">' +
@@ -639,7 +639,7 @@
         c.condition.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" : "") +
       videoHTML(c.video) +
       (similar.length ? '<div class="detail-sec"><h2>' + esc(t("similar")) + '</h2><div class="cards">' + similar.map(cardHTML).join("") + "</div></div>" : "") +
-      '<a class="back-link" href="cars.html">' + esc(t("back")) + "</a>";
+      '<a class="back-link" href="cars">' + esc(t("back")) + "</a>";
 
     // gallery behaviour: slide + crossfade, drag to swipe
     window.__carMsg = msg;
@@ -1071,6 +1071,11 @@
     });
   }
 
+  // show tidy addresses: /cars instead of /cars.html, / instead of /index.html
+  try {
+    var cp = location.pathname.replace(/\/index\.html$/, "/").replace(/\.html$/, "");
+    if (cp !== location.pathname) history.replaceState(null, "", cp + location.search + location.hash);
+  } catch (e) {}
   document.addEventListener("DOMContentLoaded", function () {
     if (window.RAKIN_LOCKED) return;
     var page = document.body.getAttribute("data-page");
