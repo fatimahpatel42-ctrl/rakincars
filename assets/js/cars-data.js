@@ -394,6 +394,35 @@ window.RAKIN_CARS = [
     about: "2020 Mercedes-Benz GLE 300d AMG Line in black with a 2.0L turbo diesel, 9-speed automatic and 4MATIC all-wheel drive. AMG Line exterior and AMG alloys, LED headlights, sunroof, premium leather and electric adjustable seats, and the widescreen digital cockpit, in excellent condition. Price is plus registration.",
     aboutSw: "Mercedes-Benz GLE 300d AMG Line ya 2020, rangi nyeusi, injini ya dizeli turbo lita 2.0, gia 9 za automatic na 4MATIC. Ina muonekano wa AMG Line, magurudumu ya AMG, taa za LED, sunroof, viti vya ngozi vya umeme na skrini pana ya kidijitali. Iko katika hali nzuri sana. Bei haijumuishi usajili.",
     condition: ["2.0L Turbo Diesel Engine", "9-Speed Automatic Transmission", "4MATIC All-Wheel Drive", "Black Exterior", "Premium Leather Seats", "Sunroof", "AMG Line Exterior Package", "AMG Alloy Wheels", "LED Headlights", "Premium Luxury Interior", "Multifunction Steering Wheel", "Electric Adjustable Seats", "Excellent Condition"]
+  },
+  {
+    id: "mercedes-g350d-2022-black",
+    name: "Mercedes-Benz G350d",
+    ref: "RC-G350D-22",
+    status: "available",
+    featured: true,
+    make: "Mercedes-Benz",
+    model: "G-Class",
+    variant: "G350d",
+    body: "SUV",
+    year: 2022, mileage: 5000, fuel: "Diesel", transmission: "9G-TRONIC automatic", engine: "3.0L 6-cylinder turbo diesel", drive: "4MATIC (AWD)",
+    colour: "Glossy black",
+    importedFrom: null,
+    priceTZS: 435000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/g350d-2022-black/card.jpg",
+    photos: [
+      { src: "assets/img/cars/g350d-2022-black/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/g350d-2022-black/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/g350d-2022-black/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/g350d-2022-black/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/g350d-2022-black/dash.jpg", label: "Dashboard" },
+      { src: "assets/img/cars/g350d-2022-black/rear-seats.jpg", label: "Rear seats" }
+    ],
+    video: null,
+    about: "2022 Mercedes-Benz G350d in glossy black with only 5,000 km. 3.0L six-cylinder turbo diesel, 9G-TRONIC automatic and 4MATIC, with electric sunroof, LED headlights, premium alloys, side running boards, parking sensors and ambient-lit interior. Like brand new. Price is plus registration.",
+    aboutSw: "Mercedes-Benz G350d ya 2022, rangi nyeusi ing'aayo, imetembea km 5,000 tu. Injini ya dizeli turbo silinda 6 lita 3.0, gia za 9G-TRONIC na 4MATIC, sunroof ya umeme, taa za LED, magurudumu ya kifahari, ngazi za pembeni na sensa za maegesho. Kama mpya kabisa. Bei haijumuishi usajili.",
+    condition: ["3.0L 6-Cylinder Turbo Diesel Engine", "9G-TRONIC Automatic Transmission", "4MATIC All-Wheel Drive", "Glossy Black Exterior", "Luxury 5-Seater SUV", "Electric Sunroof", "LED Headlights", "Premium Alloy Wheels", "Side Running Boards", "Front & Rear Parking Sensors", "Legendary G-Class Design", "Mileage: Only 5,000 KM", "Like Brand New Condition"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
