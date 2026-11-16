@@ -330,7 +330,6 @@ window.RAKIN_CARS = [
       { src: "assets/img/cars/range-rover-vogue-lwb-black/front.jpg", label: "Front 3/4" },
       { src: "assets/img/cars/range-rover-vogue-lwb-black/front-side.jpg", label: "Front" },
       { src: "assets/img/cars/range-rover-vogue-lwb-black/rear-side.jpg", label: "Rear 3/4" },
-      { src: "assets/img/cars/range-rover-vogue-lwb-black/rear.jpg", label: "Rear" },
       { src: "assets/img/cars/range-rover-vogue-lwb-black/dash.jpg", label: "Dashboard" },
       { src: "assets/img/cars/range-rover-vogue-lwb-black/rear-seats.jpg", label: "Rear seats" }
     ],
