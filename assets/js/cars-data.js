@@ -383,6 +383,7 @@ window.RAKIN_CARS = [
     tradeIn: true,
     cardImage: "assets/img/cars/gle300d-2020-black/card.jpg",
     photos: [
+      { src: "assets/img/cars/gle300d-2020-black/showroom.jpg", label: "Showroom" },
       { src: "assets/img/cars/gle300d-2020-black/front.jpg", label: "Front 3/4" },
       { src: "assets/img/cars/gle300d-2020-black/front-side.jpg", label: "Front" },
       { src: "assets/img/cars/gle300d-2020-black/rear-side.jpg", label: "Rear 3/4" },
