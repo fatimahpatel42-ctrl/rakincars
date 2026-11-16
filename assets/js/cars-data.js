@@ -365,6 +365,34 @@ window.RAKIN_CARS = [
     about: "2021 Toyota Harrier Z Package in black with a 2.0L petrol engine and automatic transmission. A 5-seater luxury SUV with premium leather seats, JBL premium sound, LED headlights and daytime running lights, alloy wheels and premium interior finishing, in excellent condition. Price is plus registration. Ask us for more pictures.",
     aboutSw: "Toyota Harrier Z Package ya 2021, rangi nyeusi, injini ya petroli lita 2.0 na gia za automatic. SUV ya kifahari ya viti 5 yenye viti vya ngozi, sauti ya JBL, taa za LED, magurudumu ya alloy na ndani ya hadhi ya juu. Iko katika hali nzuri sana. Bei haijumuishi usajili. Tuulize kwa picha zaidi.",
     condition: ["2.0L Petrol Engine", "Automatic Transmission", "Black Exterior", "Premium Leather Seats", "JBL Premium Sound System", "5 Seater Luxury SUV", "LED Headlights & Daytime Running Lights", "Alloy Wheels", "Multifunction Steering Wheel", "Premium Interior Finishing", "Excellent Condition"]
+  },
+  {
+    id: "mercedes-gle300d-amg-line-2020-black",
+    name: "Mercedes-Benz GLE 300d AMG Line",
+    ref: "RC-GLE300D-20",
+    status: "available",
+    featured: true,
+    make: "Mercedes-Benz",
+    model: "GLE",
+    variant: "GLE 300d AMG Line",
+    body: "SUV",
+    year: 2020, mileage: null, fuel: "Diesel", transmission: "9-speed automatic", engine: "2.0L Turbo Diesel", drive: "4MATIC (AWD)",
+    colour: "Black",
+    importedFrom: null,
+    priceTZS: 165000000, priceUSD: null,
+    tradeIn: true,
+    cardImage: "assets/img/cars/gle300d-2020-black/card.jpg",
+    photos: [
+      { src: "assets/img/cars/gle300d-2020-black/front.jpg", label: "Front 3/4" },
+      { src: "assets/img/cars/gle300d-2020-black/front-side.jpg", label: "Front" },
+      { src: "assets/img/cars/gle300d-2020-black/rear-side.jpg", label: "Rear 3/4" },
+      { src: "assets/img/cars/gle300d-2020-black/rear.jpg", label: "Rear" },
+      { src: "assets/img/cars/gle300d-2020-black/dash.jpg", label: "Dashboard" }
+    ],
+    video: null,
+    about: "2020 Mercedes-Benz GLE 300d AMG Line in black with a 2.0L turbo diesel, 9-speed automatic and 4MATIC all-wheel drive. AMG Line exterior and AMG alloys, LED headlights, sunroof, premium leather and electric adjustable seats, and the widescreen digital cockpit, in excellent condition. Price is plus registration.",
+    aboutSw: "Mercedes-Benz GLE 300d AMG Line ya 2020, rangi nyeusi, injini ya dizeli turbo lita 2.0, gia 9 za automatic na 4MATIC. Ina muonekano wa AMG Line, magurudumu ya AMG, taa za LED, sunroof, viti vya ngozi vya umeme na skrini pana ya kidijitali. Iko katika hali nzuri sana. Bei haijumuishi usajili.",
+    condition: ["2.0L Turbo Diesel Engine", "9-Speed Automatic Transmission", "4MATIC All-Wheel Drive", "Black Exterior", "Premium Leather Seats", "Sunroof", "AMG Line Exterior Package", "AMG Alloy Wheels", "LED Headlights", "Premium Luxury Interior", "Multifunction Steering Wheel", "Electric Adjustable Seats", "Excellent Condition"]
   }
 
   /* ---- TEMPLATE: copy from the { to the } below, remove the slash-star lines ----
