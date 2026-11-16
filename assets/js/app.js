@@ -1086,6 +1086,7 @@
     var load = sheetOn ? window.RAKIN_LOAD() : Promise.resolve({ source: "file" });
     load.catch(function () { return { source: "file" }; }).then(function (d) {
       if (d.cars && d.cars.length) CARS = d.cars;
+      CARS = CARS.filter(function (c) { return c.status !== "sold"; }); // sold cars are not shown on the website
       if (d.info) { Object.keys(d.info).forEach(function (k) { INFO[k] = d.info[k]; }); footer(); }
       if (d.reviews && d.reviews.length) REVIEWS = d.reviews;
       render(page);
